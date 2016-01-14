@@ -17,13 +17,13 @@ var Schema = mongoose.Schema;
 // Schemas
 var WeatherData = new Schema({
     temperature: { type: String, required: true },
-	humidity: { type: String, required: true}
+	humidity: { type: String, required: true},
+	modified: { type: Date, default: Date.now }
 });
 
 var Device = new Schema({
     name: { type: String, required: true, unique: true },
     weatherData: [WeatherData],
-    modified: { type: Date, default: Date.now }
 });
 
 // validation
