@@ -66,43 +66,22 @@ app.post('/devices', function(req, res) {
 				}
 			});
         } else {
-			// device.weatherData.push(req.body.weatherData);
-			return device.update(
-			   { 'name': req.body.name },
-			   { $addToSet: { 'weatherData': req.body.weatherData } },
-					function (err) {
-						if (!err) {
-							log.info("device updated");
-							return res.send(device);
-						} else {
-							if(err.name == 'ValidationError') {
-								res.statusCode = 400;
-								res.send({ error: 'Validation error' });
-							} else {
-								res.statusCode = 500;
-								res.send({ error: 'Server error' });
-							}
-							log.error('Internal error(%d): %s',res.statusCode,err.message);
-						}
-					});
-
-			/** 
-			return device.save(function (err) {
-				if (!err) {
-					log.info("device updated");
-					return res.send({ status: 'OK', device:device });
-				} else {
-					if(err.name == 'ValidationError') {
-						res.statusCode = 400;
-						res.send({ error: 'Validation error' });
+			 device.weatherData.push(req.body.weatherData);
+			 device.save(function (err) {
+					if (!err) {
+						log.info("device updated");
+						return res.send({ status: 'OK' });
 					} else {
-						res.statusCode = 500;
-						res.send({ error: 'Server error' });
+						if(err.name == 'ValidationError') {
+							res.statusCode = 400;
+							res.send({ error: 'Validation error' });
+						} else {
+							res.statusCode = 500;
+							res.send({ error: 'Server error' });
+						}
+						log.error('Internal error(%d): %s',res.statusCode,err.message);
 					}
-					log.error('Internal error(%d): %s',res.statusCode,err.message);
-				}
-			}); 
-			*/
+				});
 		}
     });
 });
