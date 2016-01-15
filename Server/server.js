@@ -86,16 +86,20 @@ app.post('/devices', function(req, res) {
     });
 });
 
-// GET /device/:name/current
-app.get('/device/:name/current', function(req, res) {
+// GET /devices/:name/current
+app.get('/devices/:name/current', function(req, res) {
 	return DeviceModel.findOne({ 'name': req.params.name }, function (err, device) {
 		if(!device) {
             res.statusCode = 404;
             return res.send({ error: 'Not found' });
         }
         if (!err) {
-			var weather = device.weatherData.find().sort({'modified':-1}).limit(1);
-            return res.send({ status: 'OK', weatherData:weather });
+			var weather = device.weatherData.sort(function(a,b){
+				  // Turn your strings into dates, and then subtract them
+				  // to get a value that is either negative, positive, or zero.
+				  return new Date(b.modified) - new Date(a.modified);
+			})[0];
+            return res.send({ weatherData:weather });
         } else {
             res.statusCode = 500;
             log.error('Internal error(%d): %s',res.statusCode,err.message);

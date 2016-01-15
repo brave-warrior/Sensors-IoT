@@ -19,6 +19,8 @@ var WeatherData = new Schema({
     temperature: { type: String, required: true },
 	humidity: { type: String, required: true},
 	modified: { type: Date, default: Date.now }
+}, {
+    _id: false
 });
 
 var Device = new Schema({
