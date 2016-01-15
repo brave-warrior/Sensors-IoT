@@ -30,7 +30,7 @@ app.get('/ErrorExample', function(req, res, next){
 
 // GET /devices
 app.get('/devices', function(req, res) {
-    return DeviceModel.find(function (err, devices) {
+    return DeviceModel.find().select( '-weatherData' ).exec(function (err, devices) {
         if (!err) {
             return res.send(devices);
         } else {
