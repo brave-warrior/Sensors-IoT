@@ -108,6 +108,29 @@ app.get('/devices/:name/current', function(req, res) {
 	});
 });
 
+// GET /devices/:name/history
+app.get('/devices/:name/history', function(req, res) {
+	return DeviceModel.findOne({ 'name': req.params.name }, function (err, device) {
+		if(!device) {
+            res.statusCode = 404;
+            return res.send({ error: 'Not found' });
+        }
+        if (!err) {
+			var weather = device.weatherData.sort(function(a,b){
+				  // Turn your strings into dates, and then subtract them
+				  // to get a value that is either negative, positive, or zero.
+				  return new Date(b.modified) - new Date(a.modified);
+			})
+			.slice(0,100);
+            return res.send({ weatherData:weather });
+        } else {
+            res.statusCode = 500;
+            log.error('Internal error(%d): %s',res.statusCode,err.message);
+            return res.send({ error: 'Server error' });
+        }
+	});
+});
+
 app.use(function(req, res, next){
     res.status(404);
     log.debug('Not found URL: %s',req.url);
