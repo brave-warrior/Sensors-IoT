@@ -7,7 +7,11 @@ unsigned int nextTime = 0;    // Next time to contact the server
 HttpClient http;
 HTU21D htu = HTU21D();
 
+char* serverUrl = "192.168.43.219";
 char* clientId = "photo1";
+char* requestBody = "{ \"name\":\"%s\", \"weatherData\": { \"temperature\":\"%f\", \"humidity\":\"%f\" } }";
+
+int delayInMillis = 10000;
 
 // Headers currently need to be set at init, useful for API keys etc.
 http_header_t headers[] = {
@@ -30,21 +34,27 @@ void loop() {
         return;
     }
 
-    float c = htu.readTemperature();
-    float h = htu.readHumidity();
+	Serial.println("Application>\tStart of Loop.");
+		
+    float temperature = htu.readTemperature();
+    float humidity = htu.readHumidity();
+	
+	Serial.println("Temperature: %f, Humidity: %f", temperature, humidity);
 
-    char payload[128];
-    snprintf(payload, sizeof(payload), "{ \"clientId\":\"%s\", \"humidity\":\"%f\",\"temperature\":\"%f\" }", clientId,h,c);
+    Serial.println("Sending data...");
+	
+	char payload[128];
+    snprintf(payload, sizeof(payload), requestBody, clientId, temperature, humidity);
 
-    Serial.println();
-    Serial.println("Application>\tStart of Loop.");
-
-    request.hostname = "192.168.43.219";
+    request.hostname = serverUrl;
     request.port = 8080;
-    request.path = "/update";
-
+    request.path = "/devices";
     request.body = payload;
+	
     http.post(request, response, headers);
+	
+    Serial.println("Data sent");
 
-    nextTime = millis() + 10000;
+	// do delay
+    nextTime = millis() + delayInMillis;
 }
