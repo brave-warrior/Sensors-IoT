@@ -1,13 +1,13 @@
 // This #include statement was automatically added by the Particle IDE.
-#include "HTU21D.h"
+#include "HTU21D/HTU21D.h"
 #include "application.h"
-#include "HttpClient.h"
+#include "HttpClient/HttpClient.h"
 
 unsigned int nextTime = 0;    // Next time to contact the server
 HttpClient http;
 HTU21D htu = HTU21D();
 
-char* serverUrl = "192.168.43.219";
+char* serverUrl = "192.168.178.34";
 char* clientId = "photo1";
 char* requestBody = "{ \"name\":\"%s\", \"weatherData\": { \"temperature\":\"%f\", \"humidity\":\"%f\" } }";
 
@@ -34,14 +34,14 @@ void loop() {
         return;
     }
 
-	Serial.println("Application>\tStart of Loop.");
+	//Serial.println("Application>\tStart of Loop.");
 		
     float temperature = htu.readTemperature();
     float humidity = htu.readHumidity();
 	
-	Serial.println("Temperature: %f, Humidity: %f", temperature, humidity);
+	//Serial.println("Temperature: %f, Humidity: %f", temperature, humidity);
 
-    Serial.println("Sending data...");
+    //Serial.println("Sending data...");
 	
 	char payload[128];
     snprintf(payload, sizeof(payload), requestBody, clientId, temperature, humidity);
@@ -53,8 +53,9 @@ void loop() {
 	
     http.post(request, response, headers);
 	
-    Serial.println("Data sent");
+    //Serial.println("Data sent");
 
 	// do delay
     nextTime = millis() + delayInMillis;
 }
+
