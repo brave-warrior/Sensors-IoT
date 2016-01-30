@@ -1,6 +1,9 @@
 package com.khmelenko.lab.sensorsclient.network;
 
-import com.khmelenko.lab.sensorsclient.network.response.Sensor;
+import com.khmelenko.lab.sensorsclient.network.response.Device;
+import com.khmelenko.lab.sensorsclient.network.response.WeatherData;
+
+import java.util.List;
 
 import retrofit.http.GET;
 import rx.Observable;
@@ -12,7 +15,13 @@ import rx.Observable;
  */
 public interface ApiService {
 
-    @GET("/sensors")
-    Observable<Sensor> getSensors();
+    @GET("/devices")
+    Observable<List<Device>> getDevices();
+
+    @GET("/devices/{name}/current")
+    Observable<Device> getCurrentData();
+
+    @GET("/devices/{name}/history")
+    Observable<List<WeatherData>> getHistory();
 
 }
