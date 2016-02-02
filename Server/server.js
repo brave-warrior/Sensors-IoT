@@ -1,5 +1,5 @@
 var express         = require('express');
-var path            = require('path'); // модуль для парсинга пути
+var path            = require('path');
 var log             = require('./libs/log')(module);
 var config          = require('./libs/config');
 var DeviceModel    = require('./libs/mongoose').DeviceModel;
@@ -99,7 +99,7 @@ app.get('/devices/:name/current', function(req, res) {
 				  // to get a value that is either negative, positive, or zero.
 				  return new Date(b.modified) - new Date(a.modified);
 			})[0];
-            return res.send({ weatherData:weather });
+            return res.send(weather);
         } else {
             res.statusCode = 500;
             log.error('Internal error(%d): %s',res.statusCode,err.message);
@@ -122,7 +122,7 @@ app.get('/devices/:name/history', function(req, res) {
 				  return new Date(b.modified) - new Date(a.modified);
 			})
 			.slice(0,100);
-            return res.send({ weatherData:weather });
+            return res.send(weather);
         } else {
             res.statusCode = 500;
             log.error('Internal error(%d): %s',res.statusCode,err.message);
