@@ -19,7 +19,7 @@ public interface ApiService {
     Observable<List<Device>> getDevices();
 
     @GET("/devices/{name}/current")
-    Observable<Device> getCurrentData();
+    Observable<WeatherData> getCurrentData();
 
     @GET("/devices/{name}/history")
     Observable<List<WeatherData>> getHistory();
