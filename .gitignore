@@ -1,3 +1,4 @@
 /Client/SensorsClient-Android/*.iml
 /Client/SensorsClient-Android/.idea
 /Client/SensorsClient-Android/app/*.iml
+/Server/.idea
