@@ -22,6 +22,8 @@ public class SensorsApp extends Application {
     public void onCreate() {
         super.onCreate();
         sContext = getApplicationContext();
+
+        buildAndInjectApp();
     }
 
     /**
