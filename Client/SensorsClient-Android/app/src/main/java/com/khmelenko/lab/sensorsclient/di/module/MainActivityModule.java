@@ -1,5 +1,6 @@
 package com.khmelenko.lab.sensorsclient.di.module;
 
+import com.khmelenko.lab.sensorsclient.network.RestClient;
 import com.khmelenko.lab.sensorsclient.ui.presenter.MainActivityPresenterImpl;
 import com.khmelenko.lab.sensorsclient.ui.view.MainActivityView;
 
@@ -27,7 +28,7 @@ public class MainActivityModule {
 
     @Provides
     public MainActivityPresenterImpl provideMainActivityPresenterImpl (MainActivityView view){
-        return  new MainActivityPresenterImpl(view);
+        return new MainActivityPresenterImpl(view);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.khmelenko.lab.sensorsclient.ui.presenter;
 
+import com.khmelenko.lab.sensorsclient.network.RestClient;
 import com.khmelenko.lab.sensorsclient.ui.view.MainActivityView;
 
 import javax.inject.Inject;
@@ -17,4 +18,5 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
     public MainActivityPresenterImpl(MainActivityView view) {
         mView = view;
     }
+
 }

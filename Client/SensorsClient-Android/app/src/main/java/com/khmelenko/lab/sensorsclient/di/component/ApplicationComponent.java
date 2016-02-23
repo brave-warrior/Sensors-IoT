@@ -2,6 +2,8 @@ package com.khmelenko.lab.sensorsclient.di.component;
 
 import com.khmelenko.lab.sensorsclient.SensorsApp;
 import com.khmelenko.lab.sensorsclient.di.module.ApplicationModule;
+import com.khmelenko.lab.sensorsclient.di.module.NetworkModule;
+import com.khmelenko.lab.sensorsclient.network.RestClient;
 
 import javax.inject.Singleton;
 
@@ -13,7 +15,9 @@ import dagger.Component;
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
 @Singleton
-@Component(modules = {ApplicationModule.class})
+@Component(modules = {ApplicationModule.class, NetworkModule.class})
 public interface ApplicationComponent {
     void inject(SensorsApp app);
+
+    RestClient restClient();
 }
