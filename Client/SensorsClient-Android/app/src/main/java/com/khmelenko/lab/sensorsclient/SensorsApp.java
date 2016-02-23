@@ -3,9 +3,11 @@ package com.khmelenko.lab.sensorsclient;
 import android.app.Application;
 import android.content.Context;
 
-import com.khmelenko.lab.sensorsclient.di.component.ApplicationComponent;
-import com.khmelenko.lab.sensorsclient.di.component.DaggerApplicationComponent;
-import com.khmelenko.lab.sensorsclient.di.module.ApplicationModule;
+import com.khmelenko.lab.sensorsclient.di.component.BaseComponent;
+import com.khmelenko.lab.sensorsclient.di.component.DaggerBaseComponent;
+import com.khmelenko.lab.sensorsclient.di.component.DaggerPresenterComponent;
+import com.khmelenko.lab.sensorsclient.di.component.PresenterComponent;
+import com.khmelenko.lab.sensorsclient.di.module.PresenterModule;
 
 /**
  * Application instance
@@ -16,14 +18,15 @@ public class SensorsApp extends Application {
 
     private static Context sContext;
 
-    private ApplicationComponent mAppComponent;
+    private BaseComponent mBaseComponent;
+    private PresenterComponent mPresenterComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
         sContext = getApplicationContext();
 
-        buildAndInjectApp();
+        buildInjections();
     }
 
     /**
@@ -49,17 +52,28 @@ public class SensorsApp extends Application {
      *
      * @return Application component
      */
-    public ApplicationComponent getAppComponent() {
-        return mAppComponent;
+    public BaseComponent getBaseComponent() {
+        return mBaseComponent;
     }
 
     /**
-     * Builds and injects application component
+     * Gets presenter component
+     *
+     * @return Presenter component
      */
-    public void buildAndInjectApp() {
-        mAppComponent = DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(this))
+    public PresenterComponent getPresenterComponent() {
+        return mPresenterComponent;
+    }
+
+    /**
+     * Builds injection components
+     */
+    private void buildInjections() {
+        mBaseComponent = DaggerBaseComponent.create();
+
+        mPresenterComponent = DaggerPresenterComponent.builder()
+                .presenterModule(new PresenterModule())
+                .baseComponent(mBaseComponent)
                 .build();
-        mAppComponent.inject(this);
     }
 }

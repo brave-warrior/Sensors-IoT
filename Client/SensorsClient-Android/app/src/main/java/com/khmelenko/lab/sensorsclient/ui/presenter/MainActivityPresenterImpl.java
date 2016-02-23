@@ -14,9 +14,25 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
 
     private MainActivityView mView;
 
+    private final RestClient mRestClient;
+
     @Inject
-    public MainActivityPresenterImpl(MainActivityView view) {
-        mView = view;
+    public MainActivityPresenterImpl(RestClient restClient) {
+        mRestClient = restClient;
     }
 
+    @Override
+    public void onAttach() {
+
+    }
+
+    @Override
+    public void onDettach() {
+
+    }
+
+    @Override
+    public void registerView(MainActivityView view) {
+        mView = view;
+    }
 }

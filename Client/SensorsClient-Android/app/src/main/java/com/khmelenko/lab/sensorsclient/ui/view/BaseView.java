@@ -1,9 +1,9 @@
 package com.khmelenko.lab.sensorsclient.ui.view;
 
 /**
- * View for the main activity
+ * Defines base interface for views
  *
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
-public interface MainActivityView extends BaseView {
+public interface BaseView {
 }

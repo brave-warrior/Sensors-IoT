@@ -1,23 +1,28 @@
 package com.khmelenko.lab.sensorsclient.ui.activity;
 
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.khmelenko.lab.sensorsclient.SensorsApp;
-import com.khmelenko.lab.sensorsclient.di.component.ApplicationComponent;
+import com.khmelenko.lab.sensorsclient.ui.presenter.BasePresenter;
 
 /**
  * Base activity
  *
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setupComponent(SensorsApp.instance().getAppComponent());
+    protected void onResume() {
+        super.onResume();
+        getPresenter().onAttach();
     }
 
-    protected abstract void setupComponent(ApplicationComponent appComponent);
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getPresenter().onDettach();
+    }
+
+    protected abstract T getPresenter();
+
 }
