@@ -44,7 +44,7 @@ public abstract class BasePresenter<T extends BaseView> {
      *
      * @param view View
      */
-    public void setView(@NonNull T view) {
+    protected void setView(@NonNull T view) {
         mView = view;
     }
 
