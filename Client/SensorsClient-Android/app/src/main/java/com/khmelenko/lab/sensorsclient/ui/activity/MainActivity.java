@@ -4,10 +4,7 @@ import android.os.Bundle;
 
 import com.khmelenko.lab.sensorsclient.R;
 import com.khmelenko.lab.sensorsclient.SensorsApp;
-import com.khmelenko.lab.sensorsclient.di.component.DaggerPresenterComponent;
-import com.khmelenko.lab.sensorsclient.di.component.PresenterComponent;
-import com.khmelenko.lab.sensorsclient.di.module.PresenterModule;
-import com.khmelenko.lab.sensorsclient.ui.presenter.MainActivityPresenter;
+import com.khmelenko.lab.sensorsclient.ui.presenter.MainActivityPresenterImpl;
 import com.khmelenko.lab.sensorsclient.ui.view.MainActivityView;
 
 import javax.inject.Inject;
@@ -17,10 +14,10 @@ import javax.inject.Inject;
  *
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
-public class MainActivity extends BaseActivity<MainActivityPresenter> implements MainActivityView {
+public class MainActivity extends BaseActivity<MainActivityPresenterImpl> implements MainActivityView {
 
     @Inject
-    MainActivityPresenter mPresenter;
+    MainActivityPresenterImpl mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +25,11 @@ public class MainActivity extends BaseActivity<MainActivityPresenter> implements
         setContentView(R.layout.activity_main);
 
         SensorsApp.instance().getPresenterComponent().inject(this);
-        mPresenter.registerView(this);
+        mPresenter.setView(this);
     }
 
     @Override
-    protected MainActivityPresenter getPresenter() {
+    protected MainActivityPresenterImpl getPresenter() {
         return mPresenter;
     }
 

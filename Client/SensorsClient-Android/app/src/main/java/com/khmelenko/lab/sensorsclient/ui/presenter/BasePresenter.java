@@ -7,22 +7,35 @@ import com.khmelenko.lab.sensorsclient.ui.view.BaseView;
  *
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
-public interface BasePresenter<T extends BaseView> {
+public abstract class BasePresenter<T extends BaseView> {
+
+    private T mView;
 
     /**
      * Notifies on attach presenter to view
      */
-    void onAttach();
+    public abstract void onAttach();
 
     /**
      * Notifies on detach presenter from view
      */
-    void onDettach();
+    public abstract void onDettach();
 
     /**
-     * Registers view for the presenter
+     * Sets the view for the presenter
      *
      * @param view View
      */
-    void registerView(T view);
+    public void setView(T view) {
+        mView = view;
+    }
+
+    /**
+     * Gets the view
+     *
+     * @return View
+     */
+    public T getView() {
+        return mView;
+    }
 }

@@ -10,9 +10,7 @@ import javax.inject.Inject;
  *
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
-public class MainActivityPresenterImpl implements MainActivityPresenter {
-
-    private MainActivityView mView;
+public class MainActivityPresenterImpl extends BasePresenter<MainActivityView> {
 
     private final RestClient mRestClient;
 
@@ -31,8 +29,4 @@ public class MainActivityPresenterImpl implements MainActivityPresenter {
 
     }
 
-    @Override
-    public void registerView(MainActivityView view) {
-        mView = view;
-    }
 }
