@@ -25,7 +25,7 @@ public class MainActivityPresenterImpl extends BasePresenter<MainActivityView> {
     }
 
     @Override
-    public void onDettach() {
+    public void onDetach() {
 
     }
 

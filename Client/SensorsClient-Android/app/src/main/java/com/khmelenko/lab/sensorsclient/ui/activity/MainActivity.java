@@ -25,7 +25,12 @@ public class MainActivity extends BaseActivity<MainActivityPresenterImpl> implem
         setContentView(R.layout.activity_main);
 
         SensorsApp.instance().getPresenterComponent().inject(this);
-        mPresenter.setView(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPresenter().attach(this);
     }
 
     @Override

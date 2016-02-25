@@ -12,15 +12,9 @@ import com.khmelenko.lab.sensorsclient.ui.presenter.BasePresenter;
 public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity {
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        getPresenter().onAttach();
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
-        getPresenter().onDettach();
+        getPresenter().detach();
     }
 
     protected abstract T getPresenter();
