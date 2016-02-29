@@ -1,6 +1,8 @@
 package com.khmelenko.lab.sensorsclient.ui.activity;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 
 import com.khmelenko.lab.sensorsclient.R;
 import com.khmelenko.lab.sensorsclient.SensorsApp;
@@ -28,6 +30,8 @@ public class MainActivity extends BaseActivity<MainActivityPresenterImpl> implem
         setContentView(R.layout.activity_main);
 
         SensorsApp.instance().getPresenterComponent().inject(this);
+
+        initToolbar();
     }
 
     @Override
@@ -49,5 +53,19 @@ public class MainActivity extends BaseActivity<MainActivityPresenterImpl> implem
     @Override
     public void showErrorToast(String errorMsg) {
         // TODO
+    }
+
+    /**
+     * Initializes toolbar
+     */
+    private void initToolbar() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        final ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 }
