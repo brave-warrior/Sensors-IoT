@@ -22,4 +22,26 @@
         <item name="actionMenuTextColor">@android:color/white</item>
     </style>
 
+    <!-- Empty view -->
+    <style name="ViewEmpty">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <!-- Style of the CardView container -->
+    <style name="CardViewContainer" parent="CardView">
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="cardCornerRadius">1dp</item>
+        <item name="contentPadding">10dp</item>
+    </style>
+
+    <!-- Style for the text in view build -->
+    <style name="GeneralText">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
 </resources>

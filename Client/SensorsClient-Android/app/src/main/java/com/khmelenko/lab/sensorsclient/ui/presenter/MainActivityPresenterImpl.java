@@ -20,7 +20,7 @@ import rx.Subscription;
 public class MainActivityPresenterImpl extends BasePresenter<MainActivityView> {
 
     private final RestClient mRestClient;
-    
+
     private Subscription mLoadDevicesSubsciption;
 
     @Inject

@@ -8,4 +8,6 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
 
+    <color name="swipe_refresh_progress">#03A9F4</color>
+
 </resources>
