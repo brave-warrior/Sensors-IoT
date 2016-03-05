@@ -11,6 +11,8 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Implementation of the main activity presenter
@@ -43,7 +45,10 @@ public final class DevicesActivityPresenter extends BasePresenter<DevicesActivit
      */
     public void loadDevices() {
         Subscriber<List<Device>> subscriber = prepareSubscriber();
-        mLoadDevicesSubsciption = getObservable().subscribe(subscriber);
+        mLoadDevicesSubsciption = getObservable()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
     }
 
     /**

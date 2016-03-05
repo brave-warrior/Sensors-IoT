@@ -85,7 +85,6 @@ public final class DevicesActivity extends BaseActivity<DevicesActivityPresenter
 
     @Override
     public void onDeviceSelected(Device device) {
-        // TODO Handle device selection
         Intent intent = new Intent(this, DeviceDataActivity.class);
         intent.putExtra(DeviceDataActivity.DEVICE_NAME_KEY, device.getName());
         startActivity(intent);
@@ -93,6 +92,6 @@ public final class DevicesActivity extends BaseActivity<DevicesActivityPresenter
 
     @Override
     public void onRefreshData() {
-        // TODO handle request Refresh
+        getPresenter().loadDevices();
     }
 }
