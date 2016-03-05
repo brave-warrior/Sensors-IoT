@@ -72,6 +72,8 @@ public final class DevicesActivity extends BaseActivity<DevicesActivityPresenter
     @Override
     public void showErrorToast(String errorMsg) {
         mFragment.setLoadingProgress(false);
+        mFragment.checkIfEmpty();
+
         // TODO
     }
 

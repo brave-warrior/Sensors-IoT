@@ -5,7 +5,7 @@ import com.khmelenko.lab.sensorsclient.network.response.WeatherData;
 
 import java.util.List;
 
-import retrofit.http.GET;
+import retrofit2.http.GET;
 import rx.Observable;
 
 /**

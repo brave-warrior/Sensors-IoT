@@ -103,7 +103,7 @@ public final class SensorsFragment extends Fragment {
     /**
      * Checks whether data existing or not
      */
-    private void checkIfEmpty() {
+    public void checkIfEmpty() {
         mEmptyView.setText(R.string.sensors_empty_text);
         if (mDevices.isEmpty()) {
             mEmptyView.setVisibility(View.VISIBLE);
