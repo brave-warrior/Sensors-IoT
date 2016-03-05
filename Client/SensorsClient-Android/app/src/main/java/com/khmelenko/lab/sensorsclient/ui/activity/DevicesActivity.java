@@ -8,8 +8,8 @@ import com.khmelenko.lab.sensorsclient.R;
 import com.khmelenko.lab.sensorsclient.SensorsApp;
 import com.khmelenko.lab.sensorsclient.network.response.Device;
 import com.khmelenko.lab.sensorsclient.ui.fragment.SensorsFragment;
-import com.khmelenko.lab.sensorsclient.ui.presenter.MainActivityPresenterImpl;
-import com.khmelenko.lab.sensorsclient.ui.view.MainActivityView;
+import com.khmelenko.lab.sensorsclient.ui.presenter.DevicesActivityPresenter;
+import com.khmelenko.lab.sensorsclient.ui.view.DevicesActivityView;
 
 import java.util.List;
 
@@ -18,17 +18,17 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 
 /**
- * Main activity
+ * Devices activity
  *
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
-public class MainActivity extends BaseActivity<MainActivityPresenterImpl>
-        implements MainActivityView, SensorsFragment.SensorsFragmentListener {
+public class DevicesActivity extends BaseActivity<DevicesActivityPresenter>
+        implements DevicesActivityView, SensorsFragment.SensorsFragmentListener {
 
     private SensorsFragment mFragment;
 
     @Inject
-    MainActivityPresenterImpl mPresenter;
+    DevicesActivityPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity<MainActivityPresenterImpl>
     }
 
     @Override
-    protected MainActivityPresenterImpl getPresenter() {
+    protected DevicesActivityPresenter getPresenter() {
         return mPresenter;
     }
 
@@ -80,12 +80,6 @@ public class MainActivity extends BaseActivity<MainActivityPresenterImpl>
     private void initToolbar() {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        final ActionBar actionBar = getSupportActionBar();
-
-        if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
     }
 
     @Override

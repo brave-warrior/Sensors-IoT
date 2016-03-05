@@ -2,7 +2,7 @@ package com.khmelenko.lab.sensorsclient.ui.presenter;
 
 import com.khmelenko.lab.sensorsclient.network.RestClient;
 import com.khmelenko.lab.sensorsclient.network.response.Device;
-import com.khmelenko.lab.sensorsclient.ui.view.MainActivityView;
+import com.khmelenko.lab.sensorsclient.ui.view.DevicesActivityView;
 
 import java.util.List;
 
@@ -17,14 +17,14 @@ import rx.Subscription;
  *
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
-public class MainActivityPresenterImpl extends BasePresenter<MainActivityView> {
+public class DevicesActivityPresenter extends BasePresenter<DevicesActivityView> {
 
     private final RestClient mRestClient;
 
     private Subscription mLoadDevicesSubsciption;
 
     @Inject
-    public MainActivityPresenterImpl(RestClient restClient) {
+    public DevicesActivityPresenter(RestClient restClient) {
         mRestClient = restClient;
     }
 

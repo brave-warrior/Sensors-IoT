@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
-public interface MainActivityView extends BaseView {
+public interface DevicesActivityView extends BaseView {
 
     /**
      * Sets the list of devices

@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".SensorsApp">
-        <activity android:name=".ui.activity.MainActivity" >
+        <activity android:name=".ui.activity.DevicesActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
