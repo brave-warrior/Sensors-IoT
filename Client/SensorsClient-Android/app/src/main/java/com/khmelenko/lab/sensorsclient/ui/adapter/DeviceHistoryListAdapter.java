@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
  *
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
-public class DeviceHistoryListAdapter extends RecyclerView.Adapter<DeviceHistoryListAdapter.HistoryItemViewHolder> {
+public final class DeviceHistoryListAdapter extends RecyclerView.Adapter<DeviceHistoryListAdapter.HistoryItemViewHolder> {
 
     private final List<WeatherData> mHistoryList;
 

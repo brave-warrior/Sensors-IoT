@@ -14,6 +14,8 @@ import com.khmelenko.lab.sensorsclient.R;
 import com.khmelenko.lab.sensorsclient.network.response.WeatherData;
 import com.khmelenko.lab.sensorsclient.ui.adapter.DeviceHistoryListAdapter;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -33,7 +35,7 @@ public final class DeviceHistoryDataFragment extends Fragment {
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     private DeviceHistoryListAdapter mDeviceHistoryListAdapter;
-    private List<WeatherData> mHistoryList;
+    private List<WeatherData> mHistoryList = new ArrayList<>();
 
     private DeviceHistoryDataListener mListener;
 

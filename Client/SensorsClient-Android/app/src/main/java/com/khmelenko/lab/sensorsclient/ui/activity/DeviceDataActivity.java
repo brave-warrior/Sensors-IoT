@@ -1,6 +1,7 @@
 package com.khmelenko.lab.sensorsclient.ui.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -24,7 +25,8 @@ import butterknife.ButterKnife;
  *
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
-public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPresenter> {
+public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPresenter>
+        implements DeviceHistoryDataFragment.DeviceHistoryDataListener, DeviceCurrentDataFragment.DeviceCurrentDataListener {
 
     public static final String DEVICE_NAME_KEY = "DeviceNameKey";
 
@@ -45,6 +47,9 @@ public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPre
         PagerAdapter adapterViewPager = new PagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
         vpPager.setOffscreenPageLimit(PagerAdapter.ITEMS_COUNT);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.device_data_tabs);
+        tabLayout.setupWithViewPager(vpPager);
     }
 
     @Override
@@ -72,13 +77,18 @@ public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPre
         }
     }
 
+    @Override
+    public void loadHistory() {
+        // TODO
+    }
+
     /**
      * Custom adapter for view pager
      */
     private class PagerAdapter extends FragmentPagerAdapter {
+        private static final int INDEX_CURRENT = 0;
+        private static final int INDEX_HISTORY = 1;
         private static final int ITEMS_COUNT = 2;
-        private static final int INDEX_CURRENT = 1;
-        private static final int INDEX_HISTORY = 2;
 
         public PagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
