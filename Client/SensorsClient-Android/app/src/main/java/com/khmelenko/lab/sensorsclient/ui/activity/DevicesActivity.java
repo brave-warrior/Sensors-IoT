@@ -1,5 +1,6 @@
 package com.khmelenko.lab.sensorsclient.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -85,6 +86,9 @@ public final class DevicesActivity extends BaseActivity<DevicesActivityPresenter
     @Override
     public void onDeviceSelected(Device device) {
         // TODO Handle device selection
+        Intent intent = new Intent(this, DeviceDataActivity.class);
+        intent.putExtra(DeviceDataActivity.DEVICE_NAME_KEY, device.getName());
+        startActivity(intent);
     }
 
     @Override

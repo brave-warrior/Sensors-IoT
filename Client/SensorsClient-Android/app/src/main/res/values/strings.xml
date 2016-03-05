@@ -6,4 +6,6 @@
     <string name="error_failed_loading_sensors">Unable to load sensors</string>
     <string name="loading_msg">Loading...</string>
     <string name="sensors_empty_text">No sensors</string>
+    <string name="device_data_tab_current">Current</string>
+    <string name="device_data_tab_history">History</string>
 </resources>
