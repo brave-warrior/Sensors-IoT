@@ -17,7 +17,7 @@ import rx.Subscription;
  *
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
-public class DevicesActivityPresenter extends BasePresenter<DevicesActivityView> {
+public final class DevicesActivityPresenter extends BasePresenter<DevicesActivityView> {
 
     private final RestClient mRestClient;
 

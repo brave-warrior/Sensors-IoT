@@ -22,7 +22,7 @@ import butterknife.ButterKnife;
  *
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
-public class DevicesActivity extends BaseActivity<DevicesActivityPresenter>
+public final class DevicesActivity extends BaseActivity<DevicesActivityPresenter>
         implements DevicesActivityView, SensorsFragment.SensorsFragmentListener {
 
     private SensorsFragment mFragment;
