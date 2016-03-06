@@ -38,7 +38,13 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
 
     @Override
     public void onDetach() {
-        // do nothing
+        if(mCurrentDataSubscription != null && mCurrentDataSubscription.isUnsubscribed()) {
+            mCurrentDataSubscription.unsubscribe();
+        }
+
+        if(mHistoryDataSubscription != null && mHistoryDataSubscription.isUnsubscribed()) {
+            mHistoryDataSubscription.unsubscribe();
+        }
     }
 
     /**
@@ -91,12 +97,11 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
 
             @Override
             public void onCompleted() {
-                // TODO Notify view on successful completion
+                // do nothing
             }
 
             @Override
             public void onError(Throwable e) {
-                // TODO improve error handling
                 getView().showErrorToast(e.getMessage());
             }
 
@@ -116,18 +121,16 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
         return new Subscriber<List<WeatherData>>() {
             @Override
             public void onCompleted() {
-                // TODO
+                // do nothing
             }
 
             @Override
             public void onError(Throwable e) {
-                // TODO
                 getView().showErrorToast(e.getMessage());
             }
 
             @Override
             public void onNext(List<WeatherData> history) {
-                // TODO
                 getView().setHistoryData(history);
             }
         };

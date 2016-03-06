@@ -1,7 +1,6 @@
 package com.khmelenko.lab.sensorsclient.ui.fragment;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -44,8 +43,6 @@ public final class SensorsFragment extends Fragment {
 
     private SensorsListAdapter mSensorsListAdapter;
     private List<Device> mDevices = new ArrayList<>();
-
-    private ProgressDialog mProgressDialog;
 
     /**
      * Creates new instance of the fragment
@@ -148,32 +145,22 @@ public final class SensorsFragment extends Fragment {
         mSensorsListAdapter.notifyDataSetChanged();
 
         checkIfEmpty();
+        cancelRefreshingProgress();
     }
 
     /**
      * Sets the progress of the loading
-     *
-     * @param isLoading True, if loading is in progress. False otherwise
      */
-    public void setLoadingProgress(boolean isLoading) {
-        if (isLoading) {
-            mProgressDialog = ProgressDialog.show(getActivity(), "", getString(R.string.loading_msg));
-        } else {
-            mSwipeRefreshLayout.setRefreshing(false);
-            if (mProgressDialog != null) {
-                mProgressDialog.dismiss();
-            }
-        }
+    public void cancelRefreshingProgress() {
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     /**
      * Handles the case when loading data failed
      */
-    public void handleLoadingFailed(String message) {
+    public void handleLoadingFailed() {
         checkIfEmpty();
-
-        String msg = getString(R.string.error_failed_loading_sensors, message);
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+        cancelRefreshingProgress();
     }
 
     /**

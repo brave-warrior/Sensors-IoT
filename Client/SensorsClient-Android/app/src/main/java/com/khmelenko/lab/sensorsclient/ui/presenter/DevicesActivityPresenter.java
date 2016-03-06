@@ -23,7 +23,7 @@ public final class DevicesActivityPresenter extends BasePresenter<DevicesActivit
 
     private final RestClient mRestClient;
 
-    private Subscription mLoadDevicesSubsciption;
+    private Subscription mLoadDevicesSubscription;
 
     @Inject
     public DevicesActivityPresenter(RestClient restClient) {
@@ -37,7 +37,9 @@ public final class DevicesActivityPresenter extends BasePresenter<DevicesActivit
 
     @Override
     public void onDetach() {
-        // do nothing
+        if(mLoadDevicesSubscription != null && mLoadDevicesSubscription.isUnsubscribed()) {
+            mLoadDevicesSubscription.unsubscribe();
+        }
     }
 
     /**
@@ -45,7 +47,7 @@ public final class DevicesActivityPresenter extends BasePresenter<DevicesActivit
      */
     public void loadDevices() {
         Subscriber<List<Device>> subscriber = prepareSubscriber();
-        mLoadDevicesSubsciption = getObservable()
+        mLoadDevicesSubscription = getObservable()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
@@ -70,12 +72,11 @@ public final class DevicesActivityPresenter extends BasePresenter<DevicesActivit
 
             @Override
             public void onCompleted() {
-                // TODO Notify view on successful completion
+                // do nothing
             }
 
             @Override
             public void onError(Throwable e) {
-                // TODO improve error handling
                 getView().showErrorToast(e.getMessage());
             }
 

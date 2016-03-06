@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import com.khmelenko.lab.sensorsclient.R;
 import com.khmelenko.lab.sensorsclient.SensorsApp;
@@ -65,6 +66,8 @@ public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPre
     protected void attachPresenter() {
         getPresenter().attach(this);
 
+        showLoadingProgress(true);
+
         getPresenter().loadCurrentData();
         getPresenter().loadHistory();
     }
@@ -91,13 +94,12 @@ public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPre
 
     @Override
     public void loadHistory() {
-        // TODO
         mPresenter.loadHistory();
     }
 
     @Override
     public void showErrorToast(String errorMsg) {
-        // TODO
+        Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -108,6 +110,7 @@ public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPre
     @Override
     public void setHistoryData(List<WeatherData> historyData) {
         // TODO
+
     }
 
     /**

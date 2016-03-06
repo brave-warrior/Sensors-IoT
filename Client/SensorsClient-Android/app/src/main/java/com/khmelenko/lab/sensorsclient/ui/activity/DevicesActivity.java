@@ -2,8 +2,8 @@ package com.khmelenko.lab.sensorsclient.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.khmelenko.lab.sensorsclient.R;
 import com.khmelenko.lab.sensorsclient.SensorsApp;
@@ -44,16 +44,10 @@ public final class DevicesActivity extends BaseActivity<DevicesActivityPresenter
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        mFragment.setLoadingProgress(false);
-    }
-
-    @Override
     protected void attachPresenter() {
         getPresenter().attach(this);
 
-        mFragment.setLoadingProgress(true);
+        showLoadingProgress(true);
         getPresenter().loadDevices();
     }
 
@@ -65,15 +59,16 @@ public final class DevicesActivity extends BaseActivity<DevicesActivityPresenter
     @Override
     public void setDevices(List<Device> devices) {
         mFragment.setDevices(devices);
-        mFragment.setLoadingProgress(false);
+        showLoadingProgress(false);
     }
 
     @Override
     public void showErrorToast(String errorMsg) {
-        mFragment.setLoadingProgress(false);
-        mFragment.checkIfEmpty();
+        mFragment.handleLoadingFailed();
+        showLoadingProgress(false);
 
-        // TODO
+        String msg = getString(R.string.error_failed_loading_sensors, errorMsg);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     /**
