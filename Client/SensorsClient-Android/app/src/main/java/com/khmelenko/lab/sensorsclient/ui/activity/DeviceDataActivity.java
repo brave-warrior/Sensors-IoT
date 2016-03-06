@@ -12,9 +12,13 @@ import android.view.View;
 
 import com.khmelenko.lab.sensorsclient.R;
 import com.khmelenko.lab.sensorsclient.SensorsApp;
+import com.khmelenko.lab.sensorsclient.network.response.WeatherData;
 import com.khmelenko.lab.sensorsclient.ui.fragment.DeviceCurrentDataFragment;
 import com.khmelenko.lab.sensorsclient.ui.fragment.DeviceHistoryDataFragment;
 import com.khmelenko.lab.sensorsclient.ui.presenter.DeviceDataActivityPresenter;
+import com.khmelenko.lab.sensorsclient.ui.view.DeviceDataActivityView;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -26,7 +30,7 @@ import butterknife.ButterKnife;
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
 public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPresenter>
-        implements DeviceHistoryDataFragment.DeviceHistoryDataListener, DeviceCurrentDataFragment.DeviceCurrentDataListener {
+        implements DeviceDataActivityView, DeviceHistoryDataFragment.DeviceHistoryDataListener, DeviceCurrentDataFragment.DeviceCurrentDataListener {
 
     public static final String DEVICE_NAME_KEY = "DeviceNameKey";
 
@@ -57,6 +61,14 @@ public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPre
         return mPresenter;
     }
 
+    @Override
+    protected void attachPresenter() {
+        getPresenter().attach(this);
+
+        getPresenter().loadCurrentData();
+        getPresenter().loadHistory();
+    }
+
     /**
      * Initializes toolbar
      */
@@ -79,6 +91,22 @@ public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPre
 
     @Override
     public void loadHistory() {
+        // TODO
+        mPresenter.loadHistory();
+    }
+
+    @Override
+    public void showErrorToast(String errorMsg) {
+        // TODO
+    }
+
+    @Override
+    public void setCurrentData(WeatherData currentData) {
+        // TODO
+    }
+
+    @Override
+    public void setHistoryData(List<WeatherData> historyData) {
         // TODO
     }
 

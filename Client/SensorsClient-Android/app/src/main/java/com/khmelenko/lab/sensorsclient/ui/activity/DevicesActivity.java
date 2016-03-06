@@ -44,18 +44,17 @@ public final class DevicesActivity extends BaseActivity<DevicesActivityPresenter
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onPause() {
+        super.onPause();
+        mFragment.setLoadingProgress(false);
+    }
+
+    @Override
+    protected void attachPresenter() {
         getPresenter().attach(this);
 
         mFragment.setLoadingProgress(true);
         getPresenter().loadDevices();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mFragment.setLoadingProgress(false);
     }
 
     @Override

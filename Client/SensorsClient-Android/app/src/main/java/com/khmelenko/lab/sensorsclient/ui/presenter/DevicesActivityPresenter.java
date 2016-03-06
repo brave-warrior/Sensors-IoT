@@ -32,12 +32,12 @@ public final class DevicesActivityPresenter extends BasePresenter<DevicesActivit
 
     @Override
     public void onAttach() {
-
+        // do nothing
     }
 
     @Override
     public void onDetach() {
-
+        // do nothing
     }
 
     /**
