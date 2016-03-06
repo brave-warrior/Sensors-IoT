@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.khmelenko.lab.sensorsclient.R;
 import com.khmelenko.lab.sensorsclient.network.response.WeatherData;
@@ -27,6 +28,9 @@ import butterknife.ButterKnife;
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
 public final class DeviceHistoryDataFragment extends Fragment {
+
+    @Bind(R.id.empty_text)
+    TextView mEmptyView;
 
     @Bind(R.id.device_history_recycler_view)
     RecyclerView mHistoryRecyclerView;
@@ -102,7 +106,31 @@ public final class DeviceHistoryDataFragment extends Fragment {
      * @param history History list
      */
     public void setHistory(List<WeatherData> history) {
-        mHistoryList = history;
+        mHistoryList.clear();
+        mHistoryList.addAll(history);
+        mDeviceHistoryListAdapter.notifyDataSetChanged();
+
+        checkIfEmpty();
+        cancelRefreshingProgress();
+    }
+
+    /**
+     * Cancels the progress of the loading
+     */
+    public void cancelRefreshingProgress() {
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
+
+    /**
+     * Checks whether data existing or not
+     */
+    public void checkIfEmpty() {
+        mEmptyView.setText(R.string.device_history_empty_text);
+        if (mHistoryList.isEmpty()) {
+            mEmptyView.setVisibility(View.VISIBLE);
+        } else {
+            mEmptyView.setVisibility(View.GONE);
+        }
     }
 
     /**

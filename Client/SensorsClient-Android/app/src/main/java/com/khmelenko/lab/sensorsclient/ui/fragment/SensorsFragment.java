@@ -149,7 +149,7 @@ public final class SensorsFragment extends Fragment {
     }
 
     /**
-     * Sets the progress of the loading
+     * Cancels the progress of the loading
      */
     public void cancelRefreshingProgress() {
         mSwipeRefreshLayout.setRefreshing(false);

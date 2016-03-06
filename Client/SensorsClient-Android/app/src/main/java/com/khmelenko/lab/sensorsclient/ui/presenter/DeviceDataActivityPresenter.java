@@ -38,21 +38,23 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
 
     @Override
     public void onDetach() {
-        if(mCurrentDataSubscription != null && mCurrentDataSubscription.isUnsubscribed()) {
+        if (mCurrentDataSubscription != null && mCurrentDataSubscription.isUnsubscribed()) {
             mCurrentDataSubscription.unsubscribe();
         }
 
-        if(mHistoryDataSubscription != null && mHistoryDataSubscription.isUnsubscribed()) {
+        if (mHistoryDataSubscription != null && mHistoryDataSubscription.isUnsubscribed()) {
             mHistoryDataSubscription.unsubscribe();
         }
     }
 
     /**
      * Starts loading history data
+     *
+     * @param deviceName Device name
      */
-    public void loadHistory() {
+    public void loadHistory(String deviceName) {
         Subscriber<List<WeatherData>> subscriber = historyDataSubscriber();
-        mHistoryDataSubscription = getHistoryData()
+        mHistoryDataSubscription = getHistoryData(deviceName)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
@@ -60,10 +62,12 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
 
     /**
      * Starts loading current data
+     *
+     * @param deviceName Device name
      */
-    public void loadCurrentData() {
+    public void loadCurrentData(String deviceName) {
         Subscriber<WeatherData> subscriber = currentDataSubscriber();
-        mCurrentDataSubscription = getCurrentData()
+        mCurrentDataSubscription = getCurrentData(deviceName)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
@@ -72,19 +76,21 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
     /**
      * Gets observable for current data
      *
+     * @param deviceName Device name
      * @return Observable
      */
-    private Observable<WeatherData> getCurrentData() {
-        return mRestClient.getService().getCurrentData();
+    private Observable<WeatherData> getCurrentData(String deviceName) {
+        return mRestClient.getService().getCurrentData(deviceName);
     }
 
     /**
      * Gets observable for history data
      *
+     * @param deviceName Device name
      * @return Observable
      */
-    private Observable<List<WeatherData>> getHistoryData() {
-        return mRestClient.getService().getHistory();
+    private Observable<List<WeatherData>> getHistoryData(String deviceName) {
+        return mRestClient.getService().getHistory(deviceName);
     }
 
     /**

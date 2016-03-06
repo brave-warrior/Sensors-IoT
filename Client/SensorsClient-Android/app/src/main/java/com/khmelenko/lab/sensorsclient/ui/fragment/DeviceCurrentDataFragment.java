@@ -82,7 +82,7 @@ public final class DeviceCurrentDataFragment extends Fragment {
         // TODO apply formatting
         mTimestamp.setText(weatherData.getDate());
         mTemperature.setText(weatherData.getTemperature());
-        mTemperature.setText(weatherData.getHumidity());
+        mHumidity.setText(weatherData.getHumidity());
     }
 
     /**

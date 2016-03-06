@@ -35,8 +35,13 @@ public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPre
 
     public static final String DEVICE_NAME_KEY = "DeviceNameKey";
 
+    private WeatherData mCurrentData;
+    private List<WeatherData> mHistoryData;
+
     @Inject
     DeviceDataActivityPresenter mPresenter;
+    private PagerAdapter mAdapterViewPager;
+    private String mDeviceName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +52,12 @@ public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPre
 
         initToolbar();
 
+        mDeviceName = getIntent().getStringExtra(DEVICE_NAME_KEY);
+
         // setting view pager
         ViewPager vpPager = (ViewPager) findViewById(R.id.device_data_view_pager);
-        PagerAdapter adapterViewPager = new PagerAdapter(getSupportFragmentManager());
-        vpPager.setAdapter(adapterViewPager);
+        mAdapterViewPager = new PagerAdapter(getSupportFragmentManager());
+        vpPager.setAdapter(mAdapterViewPager);
         vpPager.setOffscreenPageLimit(PagerAdapter.ITEMS_COUNT);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.device_data_tabs);
@@ -68,8 +75,8 @@ public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPre
 
         showLoadingProgress(true);
 
-        getPresenter().loadCurrentData();
-        getPresenter().loadHistory();
+        getPresenter().loadCurrentData(mDeviceName);
+        getPresenter().loadHistory(mDeviceName);
     }
 
     /**
@@ -94,23 +101,31 @@ public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPre
 
     @Override
     public void loadHistory() {
-        mPresenter.loadHistory();
+        mPresenter.loadHistory(mDeviceName);
     }
 
     @Override
     public void showErrorToast(String errorMsg) {
+        showLoadingProgress(false);
         Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void setCurrentData(WeatherData currentData) {
         // TODO
+        showLoadingProgress(false);
+
+        mCurrentData = currentData;
+        mAdapterViewPager.notifyDataSetChanged();
     }
 
     @Override
     public void setHistoryData(List<WeatherData> historyData) {
         // TODO
+        showLoadingProgress(false);
 
+        mHistoryData = historyData;
+        mAdapterViewPager.notifyDataSetChanged();
     }
 
     /**
@@ -154,5 +169,19 @@ public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPre
             }
         }
 
+        @Override
+        public int getItemPosition(Object object) {
+            if (object instanceof DeviceCurrentDataFragment && mCurrentData != null) {
+                DeviceCurrentDataFragment fragment = (DeviceCurrentDataFragment) object;
+                fragment.setWeatherData(mCurrentData);
+            }
+
+            if (object instanceof DeviceHistoryDataFragment && mHistoryData != null) {
+                DeviceHistoryDataFragment fragment = (DeviceHistoryDataFragment) object;
+                fragment.setHistory(mHistoryData);
+            }
+
+            return super.getItemPosition(object);
+        }
     }
 }
