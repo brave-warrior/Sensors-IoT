@@ -44,4 +44,11 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="Header" parent="GeneralText">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
 </resources>
