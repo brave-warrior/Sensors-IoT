@@ -1,5 +1,6 @@
 package com.khmelenko.lab.sensorsclient.ui.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import com.khmelenko.lab.sensorsclient.R;
 import com.khmelenko.lab.sensorsclient.network.response.WeatherData;
+import com.khmelenko.lab.sensorsclient.utils.DateTimeUtils;
 
 import java.util.List;
 
@@ -21,9 +23,11 @@ import butterknife.ButterKnife;
  */
 public final class DeviceHistoryListAdapter extends RecyclerView.Adapter<DeviceHistoryListAdapter.HistoryItemViewHolder> {
 
+    private final Context mContext;
     private final List<WeatherData> mHistoryList;
 
-    public DeviceHistoryListAdapter(List<WeatherData> historyList) {
+    public DeviceHistoryListAdapter(Context context, List<WeatherData> historyList) {
+        mContext = context;
         mHistoryList = historyList;
     }
 
@@ -37,10 +41,14 @@ public final class DeviceHistoryListAdapter extends RecyclerView.Adapter<DeviceH
     public void onBindViewHolder(HistoryItemViewHolder holder, int position) {
         WeatherData data = mHistoryList.get(position);
 
-        // TODO Do nice formatting
-        holder.mTimestamp.setText(data.getDate());
-        holder.mTemperature.setText(data.getTemperature());
-        holder.mHumidity.setText(data.getHumidity());
+        String dateTime = DateTimeUtils.parseAndFormatDateTime(data.getDate());
+        holder.mTimestamp.setText(dateTime);
+
+        String temperature = mContext.getString(R.string.device_data_temperature, data.getTemperature());
+        holder.mTemperature.setText(temperature);
+
+        String humidity = mContext.getString(R.string.device_data_humidity, data.getHumidity());
+        holder.mHumidity.setText(humidity);
     }
 
     @Override

@@ -112,7 +112,6 @@ public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPre
 
     @Override
     public void setCurrentData(WeatherData currentData) {
-        // TODO
         showLoadingProgress(false);
 
         mCurrentData = currentData;
@@ -121,7 +120,6 @@ public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPre
 
     @Override
     public void setHistoryData(List<WeatherData> historyData) {
-        // TODO
         showLoadingProgress(false);
 
         mHistoryData = historyData;

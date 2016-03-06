@@ -16,7 +16,6 @@ import com.khmelenko.lab.sensorsclient.network.response.WeatherData;
 import com.khmelenko.lab.sensorsclient.ui.adapter.DeviceHistoryListAdapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -69,7 +68,7 @@ public final class DeviceHistoryDataFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mHistoryRecyclerView.setLayoutManager(layoutManager);
 
-        mDeviceHistoryListAdapter = new DeviceHistoryListAdapter(mHistoryList);
+        mDeviceHistoryListAdapter = new DeviceHistoryListAdapter(getContext(), mHistoryList);
         mHistoryRecyclerView.setAdapter(mDeviceHistoryListAdapter);
 
         mSwipeRefreshLayout.setColorSchemeResources(R.color.swipe_refresh_progress);
