@@ -121,7 +121,7 @@ app.get('/devices/:name/history', function(req, res) {
 				  // to get a value that is either negative, positive, or zero.
 				  return new Date(b.modified) - new Date(a.modified);
 			})
-			.slice(0,100);
+			.slice(0,10000);
             return res.send(weather);
         } else {
             res.statusCode = 500;
