@@ -34,11 +34,11 @@ public final class DevicesActivity extends BaseActivity<DevicesActivityPresenter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_sensors);
         ButterKnife.bind(this);
         SensorsApp.instance().getPresenterComponent().inject(this);
 
-        mFragment = (SensorsFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+        mFragment = (SensorsFragment) getSupportFragmentManager().findFragmentById(R.id.sensors_fragment);
 
         initToolbar();
     }
