@@ -5,6 +5,7 @@ import com.khmelenko.lab.sensorsclient.network.response.WeatherData;
 import com.khmelenko.lab.sensorsclient.ui.view.DeviceDataActivityView;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -12,6 +13,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -38,11 +40,11 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
 
     @Override
     public void onDetach() {
-        if (mCurrentDataSubscription != null && mCurrentDataSubscription.isUnsubscribed()) {
+        if (mCurrentDataSubscription != null && !mCurrentDataSubscription.isUnsubscribed()) {
             mCurrentDataSubscription.unsubscribe();
         }
 
-        if (mHistoryDataSubscription != null && mHistoryDataSubscription.isUnsubscribed()) {
+        if (mHistoryDataSubscription != null && !mHistoryDataSubscription.isUnsubscribed()) {
             mHistoryDataSubscription.unsubscribe();
         }
     }
@@ -65,12 +67,17 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
      *
      * @param deviceName Device name
      */
-    public void loadCurrentData(String deviceName) {
-        Subscriber<WeatherData> subscriber = currentDataSubscriber();
-        mCurrentDataSubscription = getCurrentData(deviceName)
+    public void loadCurrentData(final String deviceName) {
+        mCurrentDataSubscription = Observable.interval(0, 10, TimeUnit.SECONDS)
+                .flatMap(new Func1<Long, Observable<WeatherData>>() {
+                    @Override
+                    public Observable<WeatherData> call(Long aLong) {
+                        return getCurrentData(deviceName);
+                    }
+                })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(subscriber);
+                .subscribe(currentDataSubscriber());
     }
 
     /**
