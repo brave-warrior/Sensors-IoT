@@ -4,6 +4,8 @@ import com.khmelenko.lab.sensorsclient.network.RestClient;
 import com.khmelenko.lab.sensorsclient.network.response.WeatherData;
 import com.khmelenko.lab.sensorsclient.ui.view.DeviceDataActivityView;
 
+import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +16,7 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 /**
@@ -27,6 +30,7 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
 
     private Subscription mCurrentDataSubscription;
     private Subscription mHistoryDataSubscription;
+    private Subscription mCurrentDataAndHistorySubscription;
 
     @Inject
     public DeviceDataActivityPresenter(RestClient restClient) {
@@ -40,6 +44,10 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
 
     @Override
     public void onDetach() {
+        if(mCurrentDataAndHistorySubscription != null && !mCurrentDataAndHistorySubscription.isUnsubscribed()) {
+            mCurrentDataSubscription.unsubscribe();
+        }
+
         if (mCurrentDataSubscription != null && !mCurrentDataSubscription.isUnsubscribed()) {
             mCurrentDataSubscription.unsubscribe();
         }
@@ -68,7 +76,10 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
      * @param deviceName Device name
      */
     public void loadCurrentData(final String deviceName) {
-        mCurrentDataSubscription = Observable.interval(0, 10, TimeUnit.SECONDS)
+        final long initialDelay = 3; // 3 seconds
+        final long period = 10; // 10 seconds
+
+        mCurrentDataSubscription = Observable.interval(initialDelay, period, TimeUnit.SECONDS)
                 .flatMap(new Func1<Long, Observable<WeatherData>>() {
                     @Override
                     public Observable<WeatherData> call(Long aLong) {
@@ -78,6 +89,36 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(currentDataSubscriber());
+    }
+
+    /**
+     * Loads current data and history
+     *
+     * @param deviceName Device name
+     */
+    public void loadCurrentDataAndHistory(final String deviceName) {
+        Observable<WeatherData> currentData = Observable.interval(0, 10, TimeUnit.SECONDS)
+                .flatMap(new Func1<Long, Observable<WeatherData>>() {
+                    @Override
+                    public Observable<WeatherData> call(Long aLong) {
+                        return getCurrentData(deviceName);
+                    }
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+
+        Observable<List<WeatherData>> history = getHistoryData(deviceName)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread());
+
+        mCurrentDataAndHistorySubscription = Observable.zip(currentData, history,
+                new Func2<WeatherData, List<WeatherData>,
+                        AbstractMap.SimpleImmutableEntry<WeatherData, List<WeatherData>>>() {
+                    @Override
+                    public AbstractMap.SimpleImmutableEntry<WeatherData, List<WeatherData>> call(WeatherData weatherData, List<WeatherData> history) {
+                        return new HashMap.SimpleImmutableEntry<>(weatherData, history);
+                    }
+                }).subscribe(currentDataAndHistorySubscriber());
     }
 
     /**
@@ -98,6 +139,35 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
      */
     private Observable<List<WeatherData>> getHistoryData(String deviceName) {
         return mRestClient.getService().getHistory(deviceName);
+    }
+
+    /**
+     * Prepares subscriber for the current data and history
+     *
+     * @return Subscriber
+     */
+    private Subscriber<AbstractMap.SimpleImmutableEntry<WeatherData, List<WeatherData>>> currentDataAndHistorySubscriber() {
+        return new Subscriber<AbstractMap.SimpleImmutableEntry<WeatherData, List<WeatherData>>>() {
+
+            @Override
+            public void onCompleted() {
+                // do nothing
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                getView().showErrorToast(e.getMessage());
+            }
+
+            @Override
+            public void onNext(AbstractMap.SimpleImmutableEntry<WeatherData, List<WeatherData>> weatherDataListMap) {
+                WeatherData current = weatherDataListMap.getKey();
+                getView().setCurrentData(current);
+
+                List<WeatherData> history = weatherDataListMap.getValue();
+                getView().setHistoryData(history);
+            }
+        };
     }
 
     /**

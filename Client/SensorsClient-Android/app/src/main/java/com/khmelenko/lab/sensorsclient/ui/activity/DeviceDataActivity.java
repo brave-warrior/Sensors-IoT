@@ -75,8 +75,8 @@ public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPre
 
         showLoadingProgress(true);
 
+        getPresenter().loadCurrentDataAndHistory(mDeviceName);
         getPresenter().loadCurrentData(mDeviceName);
-        getPresenter().loadHistory(mDeviceName);
     }
 
     /**
