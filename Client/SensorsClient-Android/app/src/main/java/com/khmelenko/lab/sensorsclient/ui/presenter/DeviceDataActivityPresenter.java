@@ -76,7 +76,7 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
      * @param deviceName Device name
      */
     public void loadCurrentData(final String deviceName) {
-        final long initialDelay = 3; // 3 seconds
+        final long initialDelay = 5; // 5 seconds
         final long period = 10; // 10 seconds
 
         mCurrentDataSubscription = Observable.interval(initialDelay, period, TimeUnit.SECONDS)
@@ -88,6 +88,7 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .retry()
                 .subscribe(currentDataSubscriber());
     }
 
