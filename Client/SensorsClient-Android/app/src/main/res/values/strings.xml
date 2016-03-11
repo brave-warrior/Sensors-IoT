@@ -1,15 +1,20 @@
 <resources>
     <string name="app_name">SensorsClient</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="error_failed_loading_sensors">Unable to load sensors</string>
-    <string name="loading_msg">Loading...</string>
+    <!-- Devices screen -->
     <string name="sensors_empty_text">No sensors</string>
+
+    <!-- Device data screen -->
     <string name="device_data_tab_current">Current</string>
     <string name="device_data_tab_history">History</string>
-    <string name="device_history_empty_text">No history</string>
+    <string name="device_data_history_empty_text">No history</string>
     <string name="device_data_temperature">Temperature: %1$s °C</string>
     <string name="device_data_humidity">Humidity: %1$s %%</string>
     <string name="device_data_current_empty_text">No data</string>
+
+    <!-- Messages -->
+    <string name="error_failed_loading_sensors">Unable to load sensors</string>
+    <string name="loading_msg">Loading...</string>
+
+
 </resources>

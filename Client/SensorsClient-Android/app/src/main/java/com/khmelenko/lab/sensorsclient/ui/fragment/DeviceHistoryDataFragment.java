@@ -132,7 +132,7 @@ public final class DeviceHistoryDataFragment extends Fragment {
      * Checks whether data existing or not
      */
     public void checkIfEmpty() {
-        mEmptyView.setText(R.string.device_history_empty_text);
+        mEmptyView.setText(R.string.device_data_history_empty_text);
         if (mHistoryList.isEmpty()) {
             mEmptyView.setVisibility(View.VISIBLE);
         } else {
