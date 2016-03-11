@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +13,7 @@ import android.widget.Toast;
 import com.khmelenko.lab.sensorsclient.R;
 import com.khmelenko.lab.sensorsclient.SensorsApp;
 import com.khmelenko.lab.sensorsclient.network.response.WeatherData;
+import com.khmelenko.lab.sensorsclient.ui.adapter.SmartFragmentStatePagerAdapter;
 import com.khmelenko.lab.sensorsclient.ui.fragment.DeviceCurrentDataFragment;
 import com.khmelenko.lab.sensorsclient.ui.fragment.DeviceHistoryDataFragment;
 import com.khmelenko.lab.sensorsclient.ui.presenter.DeviceDataActivityPresenter;
@@ -40,7 +40,8 @@ public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPre
 
     @Inject
     DeviceDataActivityPresenter mPresenter;
-    private PagerAdapter mAdapterViewPager;
+
+    private SmartFragmentStatePagerAdapter mAdapterViewPager;
     private String mDeviceName;
 
     @Override
@@ -126,10 +127,24 @@ public final class DeviceDataActivity extends BaseActivity<DeviceDataActivityPre
         mAdapterViewPager.notifyDataSetChanged();
     }
 
+    @Override
+    public void handleFailedLoadingCurrentData() {
+        DeviceCurrentDataFragment fragment =
+                (DeviceCurrentDataFragment) mAdapterViewPager.getRegisteredFragment(PagerAdapter.INDEX_CURRENT);
+        fragment.handleLoadingFailed();
+    }
+
+    @Override
+    public void handleFailedLoadingHistory() {
+        DeviceHistoryDataFragment fragment =
+                (DeviceHistoryDataFragment) mAdapterViewPager.getRegisteredFragment(PagerAdapter.INDEX_HISTORY);
+        fragment.handleLoadingFailed();
+    }
+
     /**
      * Custom adapter for view pager
      */
-    private class PagerAdapter extends FragmentPagerAdapter {
+    private class PagerAdapter extends SmartFragmentStatePagerAdapter {
         private static final int INDEX_CURRENT = 0;
         private static final int INDEX_HISTORY = 1;
         private static final int ITEMS_COUNT = 2;

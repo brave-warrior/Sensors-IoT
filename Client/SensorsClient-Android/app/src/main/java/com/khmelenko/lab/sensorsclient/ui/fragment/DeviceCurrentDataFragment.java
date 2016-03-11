@@ -31,6 +31,8 @@ public final class DeviceCurrentDataFragment extends Fragment {
     @Bind(R.id.device_current_humidity)
     TextView mHumidity;
 
+    private WeatherData mLastWeather;
+
     private DeviceCurrentDataListener mListener;
 
     public DeviceCurrentDataFragment() {
@@ -88,6 +90,17 @@ public final class DeviceCurrentDataFragment extends Fragment {
 
         String humidity = getString(R.string.device_data_humidity, weatherData.getHumidity());
         mHumidity.setText(humidity);
+
+        mLastWeather = weatherData;
+    }
+
+    /**
+     * Handles the case when loading data failed
+     */
+    public void handleLoadingFailed() {
+        if (mLastWeather == null) {
+            mTimestamp.setText(R.string.device_data_current_empty_text);
+        }
     }
 
     /**

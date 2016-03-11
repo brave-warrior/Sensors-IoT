@@ -31,4 +31,14 @@ public interface DeviceDataActivityView extends BaseView {
      * @param historyData History data
      */
     void setHistoryData(List<WeatherData> historyData);
+
+    /**
+     * Handles failed loading current data
+     */
+    void handleFailedLoadingCurrentData();
+
+    /**
+     * Handles failed loading history
+     */
+    void handleFailedLoadingHistory();
 }

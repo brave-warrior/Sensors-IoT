@@ -11,4 +11,5 @@
     <string name="device_history_empty_text">No history</string>
     <string name="device_data_temperature">Temperature: %1$s °C</string>
     <string name="device_data_humidity">Humidity: %1$s %%</string>
+    <string name="device_data_current_empty_text">No data</string>
 </resources>

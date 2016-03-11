@@ -114,6 +114,14 @@ public final class DeviceHistoryDataFragment extends Fragment {
     }
 
     /**
+     * Handles the case when loading data failed
+     */
+    public void handleLoadingFailed() {
+        checkIfEmpty();
+        cancelRefreshingProgress();
+    }
+
+    /**
      * Cancels the progress of the loading
      */
     public void cancelRefreshingProgress() {

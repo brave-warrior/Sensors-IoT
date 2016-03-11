@@ -158,6 +158,8 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
             @Override
             public void onError(Throwable e) {
                 getView().showErrorToast(e.getMessage());
+                getView().handleFailedLoadingCurrentData();
+                getView().handleFailedLoadingHistory();
             }
 
             @Override
@@ -187,6 +189,7 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
             @Override
             public void onError(Throwable e) {
                 getView().showErrorToast(e.getMessage());
+                getView().handleFailedLoadingCurrentData();
             }
 
             @Override
@@ -211,6 +214,7 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
             @Override
             public void onError(Throwable e) {
                 getView().showErrorToast(e.getMessage());
+                getView().handleFailedLoadingHistory();
             }
 
             @Override
