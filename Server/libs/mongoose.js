@@ -1,6 +1,6 @@
-var config      = require('./config');
-var mongoose    = require('mongoose');
-var log         = require('./log')(module);
+var config = require('./config');
+var mongoose = require('mongoose');
+var log = require('./log')(module);
 
 mongoose.connect(config.get('mongoose:uri'));
 var db = mongoose.connection;
@@ -8,7 +8,7 @@ var db = mongoose.connection;
 db.on('error', function (err) {
     log.error('connection error:', err.message);
 });
-db.once('open', function callback () {
+db.once('open', function callback() {
     log.info("Connected to DB!");
 });
 
@@ -16,15 +16,15 @@ var Schema = mongoose.Schema;
 
 // Schemas
 var WeatherData = new Schema({
-    temperature: { type: String, required: true },
-	humidity: { type: String, required: true},
-	modified: { type: Date, default: Date.now }
+    temperature: {type: String, required: true},
+    humidity: {type: String, required: true},
+    modified: {type: Date, default: Date.now}
 }, {
     _id: false
 });
 
 var Device = new Schema({
-    name: { type: String, required: true, unique: true },
+    name: {type: String, required: true, unique: true},
     weatherData: [WeatherData],
 });
 
