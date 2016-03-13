@@ -10,9 +10,9 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.use(function (req, res, next) {
-  console.log(req.body) // populated!
-  next()
-})
+    console.log(req.body); // print request
+    next();
+});
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -99,6 +99,7 @@ app.get('/devices/:name/current', function(req, res) {
 				  // to get a value that is either negative, positive, or zero.
 				  return new Date(b.modified) - new Date(a.modified);
 			})[0];
+            log.info('\nCurrent data\n' + weather);
             return res.send(weather);
         } else {
             res.statusCode = 500;
