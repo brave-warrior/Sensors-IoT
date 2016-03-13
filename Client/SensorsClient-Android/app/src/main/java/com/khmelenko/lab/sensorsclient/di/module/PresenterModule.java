@@ -27,7 +27,7 @@ public class PresenterModule {
     }
 
     @Provides
-    SettingsActivityPresenter providesSettingsActivityPresenter() {
-        return new SettingsActivityPresenter();
+    SettingsActivityPresenter providesSettingsActivityPresenter(RestClient restClient) {
+        return new SettingsActivityPresenter(restClient);
     }
 }

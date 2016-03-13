@@ -1,5 +1,6 @@
 package com.khmelenko.lab.sensorsclient.ui.presenter;
 
+import com.khmelenko.lab.sensorsclient.network.RestClient;
 import com.khmelenko.lab.sensorsclient.ui.view.SettingsActivityView;
 
 import javax.inject.Inject;
@@ -11,6 +12,13 @@ import javax.inject.Inject;
  */
 public final class SettingsActivityPresenter extends BasePresenter<SettingsActivityView> {
 
+    private final RestClient mRestClient;
+
+    @Inject
+    public SettingsActivityPresenter(RestClient restClient) {
+        mRestClient = restClient;
+    }
+
     @Override
     public void onAttach() {
         // do nothing
@@ -19,5 +27,14 @@ public final class SettingsActivityPresenter extends BasePresenter<SettingsActiv
     @Override
     public void onDetach() {
         // do nothing
+    }
+
+    /**
+     * Updates server URL
+     *
+     * @param newServerUrl New server URL
+     */
+    public void updateServerUrl(String newServerUrl) {
+        mRestClient.updateEndpoint(newServerUrl);
     }
 }

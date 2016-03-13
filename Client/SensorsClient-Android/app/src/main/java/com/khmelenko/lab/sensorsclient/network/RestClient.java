@@ -13,8 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public final class RestClient {
 
-    private static final String ENDPOINT = AppSettings.getServerUrl();
-
     private static RestClient sInstance;
 
     private ApiService mApiService;
@@ -28,18 +26,8 @@ public final class RestClient {
 
     private RestClient() {
 
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ENDPOINT)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(client)
-                .build();
-
-        mApiService = retrofit.create(ApiService.class);
+        String endpoint = AppSettings.getServerUrl();
+        updateEndpoint(endpoint);
     }
 
     /**
@@ -49,5 +37,25 @@ public final class RestClient {
      */
     public ApiService getService() {
         return mApiService;
+    }
+
+    /**
+     * Updates endpoint
+     *
+     * @param newEndpoint New endpoint
+     */
+    public void updateEndpoint(String newEndpoint) {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(newEndpoint)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(client)
+                .build();
+
+        mApiService = retrofit.create(ApiService.class);
     }
 }

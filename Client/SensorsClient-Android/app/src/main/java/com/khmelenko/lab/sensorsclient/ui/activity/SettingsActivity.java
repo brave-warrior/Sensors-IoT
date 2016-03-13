@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.khmelenko.lab.sensorsclient.R;
 import com.khmelenko.lab.sensorsclient.SensorsApp;
+import com.khmelenko.lab.sensorsclient.storage.AppSettings;
 import com.khmelenko.lab.sensorsclient.ui.fragment.SettingsFragment;
 import com.khmelenko.lab.sensorsclient.ui.presenter.SettingsActivityPresenter;
 import com.khmelenko.lab.sensorsclient.ui.view.SettingsActivityView;
@@ -19,7 +20,7 @@ import javax.inject.Inject;
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
 public final class SettingsActivity extends BaseActivity<SettingsActivityPresenter>
-        implements SettingsActivityView {
+        implements SettingsActivityView, SettingsFragment.SettingsFragmentListener {
 
     @Inject
     SettingsActivityPresenter mPresenter;
@@ -32,7 +33,8 @@ public final class SettingsActivity extends BaseActivity<SettingsActivityPresent
 
         initToolbar();
 
-        getFragmentManager().beginTransaction().replace(R.id.settings_content, new SettingsFragment()).commit();
+        SettingsFragment fragment = SettingsFragment.newInstance(AppSettings.getServerUrl());
+        getFragmentManager().beginTransaction().replace(R.id.settings_content, fragment).commit();
     }
 
     /**
@@ -63,5 +65,10 @@ public final class SettingsActivity extends BaseActivity<SettingsActivityPresent
     @Override
     protected void attachPresenter() {
         getPresenter().attach(this);
+    }
+
+    @Override
+    public void serverUrlChanged(String newServerUrl) {
+        getPresenter().updateServerUrl(newServerUrl);
     }
 }
