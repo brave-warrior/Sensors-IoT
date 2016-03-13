@@ -2,12 +2,15 @@ package com.khmelenko.lab.sensorsclient;
 
 import android.app.Application;
 import android.content.Context;
+import android.text.TextUtils;
 
+import com.khmelenko.lab.sensorsclient.common.Constants;
 import com.khmelenko.lab.sensorsclient.di.component.BaseComponent;
 import com.khmelenko.lab.sensorsclient.di.component.DaggerBaseComponent;
 import com.khmelenko.lab.sensorsclient.di.component.DaggerPresenterComponent;
 import com.khmelenko.lab.sensorsclient.di.component.PresenterComponent;
 import com.khmelenko.lab.sensorsclient.di.module.PresenterModule;
+import com.khmelenko.lab.sensorsclient.storage.AppSettings;
 
 /**
  * Application instance
@@ -26,7 +29,19 @@ public class SensorsApp extends Application {
         super.onCreate();
         sContext = getApplicationContext();
 
+        checkAppSettings();
+
         buildInjections();
+    }
+
+    /**
+     * Checks application settings
+     */
+    private void checkAppSettings() {
+        String serverUrl = AppSettings.getServerUrl();
+        if (TextUtils.isEmpty(serverUrl)) {
+            AppSettings.setServerUrl(Constants.DEFAULT_SERVER_URL);
+        }
     }
 
     /**

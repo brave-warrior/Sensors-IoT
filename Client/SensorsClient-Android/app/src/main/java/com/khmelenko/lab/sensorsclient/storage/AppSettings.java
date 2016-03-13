@@ -10,28 +10,28 @@ import com.khmelenko.lab.sensorsclient.SensorsApp;
  *
  * @author Dmytro Khmelenko
  */
-public class AppPreferences {
+public final class AppSettings {
 
-    private static final String AUTH = "AuthHeader";
+    private static final String SERVER_URL = "ServerUrl";
 
     /**
-     * Saves authentication header to settings
+     * Saves server URL to settings
      *
-     * @param authorizationHeader Auth header
+     * @param serverUrl Server URL
      */
-    public static void saveAuthorizationHeader(String authorizationHeader) {
+    public static void setServerUrl(String serverUrl) {
         SharedPreferences pref = getPreferences();
-        pref.edit().putString(AUTH, authorizationHeader).commit();
+        pref.edit().putString(SERVER_URL, serverUrl).apply();
     }
 
     /**
-     * Gets auth header from app settings
+     * Gets server URL from app settings
      *
-     * @return Auth header
+     * @return Server URL
      */
-    public static String getAuthorizationHeader() {
+    public static String getServerUrl() {
         SharedPreferences pref = getPreferences();
-        return pref.getString(AUTH, "");
+        return pref.getString(SERVER_URL, "");
     }
 
     /**

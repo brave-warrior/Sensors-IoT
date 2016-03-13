@@ -1,5 +1,7 @@
 package com.khmelenko.lab.sensorsclient.network;
 
+import com.khmelenko.lab.sensorsclient.storage.AppSettings;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -11,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public final class RestClient {
 
-    private static final String ENDPOINT = "http://192.168.178.34:8080";
+    private static final String ENDPOINT = AppSettings.getServerUrl();
 
     private static RestClient sInstance;
 

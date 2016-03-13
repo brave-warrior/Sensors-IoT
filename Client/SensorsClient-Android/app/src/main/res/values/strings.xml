@@ -16,5 +16,11 @@
     <string name="error_failed_loading_sensors">Unable to load sensors</string>
     <string name="loading_msg">Loading...</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="settings_server_url">Server URL</string>
+    <string name="settings_category_general">General</string>
+    <string name="devices_menu_action_preferences">Settings</string>
+
 
 </resources>
