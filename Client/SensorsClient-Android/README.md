@@ -2,7 +2,7 @@
 
 This project is Android client for the project Sensors-IoT. The purpose of the app is to fetch from the server and show actual weather data (temperature, humidity).
 
-![Current data](/screenshots/current_data.png)   ![History](/screenshots/history.png)
+![Current data](screenshots/current_data.png)   ![History](screenshots/history.png)
 
 # Open source libraries
 - [Android appcompat v7](https://github.com/android/platform_frameworks_support/tree/master/v7/appcompat)
