@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.khmelenko.lab.sensorsclient.R;
 import com.khmelenko.lab.sensorsclient.network.response.WeatherData;
 import com.khmelenko.lab.sensorsclient.utils.DateTimeUtils;
+import com.khmelenko.lab.sensorsclient.utils.StringUtils;
 
 import java.util.List;
 
@@ -44,10 +45,12 @@ public final class DeviceHistoryListAdapter extends RecyclerView.Adapter<DeviceH
         String dateTime = DateTimeUtils.parseAndFormatDateTime(data.getDate());
         holder.mTimestamp.setText(dateTime);
 
-        String temperature = mContext.getString(R.string.device_data_temperature, data.getTemperature());
+        String temperature = StringUtils.formatDecimalDigits(data.getTemperature(), 2);
+        temperature = mContext.getString(R.string.device_data_temperature, temperature);
         holder.mTemperature.setText(temperature);
 
-        String humidity = mContext.getString(R.string.device_data_humidity, data.getHumidity());
+        String humidity = StringUtils.formatDecimalDigits(data.getHumidity(), 2);
+        humidity = mContext.getString(R.string.device_data_humidity, humidity);
         holder.mHumidity.setText(humidity);
     }
 

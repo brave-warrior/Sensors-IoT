@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.khmelenko.lab.sensorsclient.R;
 import com.khmelenko.lab.sensorsclient.network.response.WeatherData;
 import com.khmelenko.lab.sensorsclient.utils.DateTimeUtils;
+import com.khmelenko.lab.sensorsclient.utils.StringUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -85,10 +86,12 @@ public final class DeviceCurrentDataFragment extends Fragment {
         String dateTime = DateTimeUtils.parseAndFormatDateTime(weatherData.getDate());
         mTimestamp.setText(dateTime);
 
-        String temperature = getString(R.string.device_data_temperature, weatherData.getTemperature());
+        String temperature = StringUtils.formatDecimalDigits(weatherData.getTemperature(), 2);
+        temperature = getString(R.string.device_data_temperature, temperature);
         mTemperature.setText(temperature);
 
-        String humidity = getString(R.string.device_data_humidity, weatherData.getHumidity());
+        String humidity = StringUtils.formatDecimalDigits(weatherData.getHumidity(), 2);
+        humidity = getString(R.string.device_data_humidity, humidity);
         mHumidity.setText(humidity);
 
         mLastWeather = weatherData;
