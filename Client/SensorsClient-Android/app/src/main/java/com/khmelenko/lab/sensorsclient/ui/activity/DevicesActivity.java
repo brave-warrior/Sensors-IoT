@@ -1,10 +1,7 @@
 package com.khmelenko.lab.sensorsclient.ui.activity;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,7 +11,7 @@ import android.widget.Toast;
 import com.khmelenko.lab.sensorsclient.R;
 import com.khmelenko.lab.sensorsclient.SensorsApp;
 import com.khmelenko.lab.sensorsclient.network.response.Device;
-import com.khmelenko.lab.sensorsclient.ui.fragment.SensorsFragment;
+import com.khmelenko.lab.sensorsclient.ui.fragment.DevicesFragment;
 import com.khmelenko.lab.sensorsclient.ui.presenter.DevicesActivityPresenter;
 import com.khmelenko.lab.sensorsclient.ui.view.DevicesActivityView;
 
@@ -30,9 +27,9 @@ import butterknife.ButterKnife;
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
 public final class DevicesActivity extends BaseActivity<DevicesActivityPresenter>
-        implements DevicesActivityView, SensorsFragment.SensorsFragmentListener {
+        implements DevicesActivityView, DevicesFragment.SensorsFragmentListener {
 
-    private SensorsFragment mFragment;
+    private DevicesFragment mFragment;
 
     @Inject
     DevicesActivityPresenter mPresenter;
@@ -40,11 +37,11 @@ public final class DevicesActivity extends BaseActivity<DevicesActivityPresenter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sensors);
+        setContentView(R.layout.activity_devices);
         ButterKnife.bind(this);
         SensorsApp.instance().getPresenterComponent().inject(this);
 
-        mFragment = (SensorsFragment) getSupportFragmentManager().findFragmentById(R.id.sensors_fragment);
+        mFragment = (DevicesFragment) getSupportFragmentManager().findFragmentById(R.id.sensors_fragment);
 
         initToolbar();
     }

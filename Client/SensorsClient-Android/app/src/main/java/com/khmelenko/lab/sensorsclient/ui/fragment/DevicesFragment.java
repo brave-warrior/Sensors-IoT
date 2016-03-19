@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.khmelenko.lab.sensorsclient.R;
 import com.khmelenko.lab.sensorsclient.network.response.Device;
@@ -28,7 +27,7 @@ import butterknife.ButterKnife;
  *
  * @author Dmytro Khmelenko
  */
-public final class SensorsFragment extends Fragment {
+public final class DevicesFragment extends Fragment {
 
     private SensorsFragmentListener mListener;
 
@@ -49,11 +48,11 @@ public final class SensorsFragment extends Fragment {
      *
      * @return Fragment instance
      */
-    public static SensorsFragment newInstance() {
-        return new SensorsFragment();
+    public static DevicesFragment newInstance() {
+        return new DevicesFragment();
     }
 
-    public SensorsFragment() {
+    public DevicesFragment() {
         // Required empty public constructor
     }
 
@@ -66,7 +65,7 @@ public final class SensorsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_sensors, container, false);
+        View view = inflater.inflate(R.layout.fragment_devices, container, false);
         ButterKnife.bind(this, view);
 
         mSensorsRecyclerView.setHasFixedSize(true);

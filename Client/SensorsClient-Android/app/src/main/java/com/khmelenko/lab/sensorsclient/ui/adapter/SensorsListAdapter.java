@@ -32,7 +32,7 @@ public final class SensorsListAdapter extends RecyclerView.Adapter<SensorsListAd
 
     @Override
     public SensorViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sensor, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_device, parent, false);
         return new SensorViewHolder(v);
     }
 
