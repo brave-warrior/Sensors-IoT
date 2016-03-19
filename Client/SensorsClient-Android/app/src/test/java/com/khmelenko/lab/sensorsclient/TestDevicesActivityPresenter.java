@@ -4,7 +4,6 @@ package com.khmelenko.lab.sensorsclient;
 import com.khmelenko.lab.sensorsclient.network.ApiService;
 import com.khmelenko.lab.sensorsclient.network.RestClient;
 import com.khmelenko.lab.sensorsclient.network.response.Device;
-import com.khmelenko.lab.sensorsclient.ui.presenter.DeviceDataActivityPresenter;
 import com.khmelenko.lab.sensorsclient.ui.presenter.DevicesActivityPresenter;
 
 import org.junit.Before;
@@ -18,24 +17,22 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import rx.Observable;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Testing TaskManager class
+ * Testing DevicesActivityPresenter class
  *
  * @author Dmytro Khmelenko (d.khmelenko@gmail.com)
  */
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = 21)
-@PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
+@PowerMockIgnore({"org.mockito.*", "org.robolectric.*", "android.*"})
 @PrepareForTest({RestClient.class, DevicesActivityPresenter.class})
 public class TestDevicesActivityPresenter {
 

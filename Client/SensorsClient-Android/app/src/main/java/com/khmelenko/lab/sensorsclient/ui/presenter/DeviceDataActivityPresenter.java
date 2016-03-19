@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -44,7 +45,7 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
 
     @Override
     public void onDetach() {
-        if(mCurrentDataAndHistorySubscription != null && !mCurrentDataAndHistorySubscription.isUnsubscribed()) {
+        if (mCurrentDataAndHistorySubscription != null && !mCurrentDataAndHistorySubscription.isUnsubscribed()) {
             mCurrentDataSubscription.unsubscribe();
         }
 
@@ -76,10 +77,20 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
      * @param deviceName Device name
      */
     public void loadCurrentData(final String deviceName) {
+        loadCurrentData(deviceName, Schedulers.computation());
+    }
+
+    /**
+     * Starts loading current data
+     *
+     * @param deviceName Device name
+     * @param scheduler  Scheduler
+     */
+    public void loadCurrentData(final String deviceName, Scheduler scheduler) {
         final long initialDelay = 5; // 5 seconds
         final long period = 10; // 10 seconds
 
-        mCurrentDataSubscription = Observable.interval(initialDelay, period, TimeUnit.SECONDS)
+        mCurrentDataSubscription = Observable.interval(initialDelay, period, TimeUnit.SECONDS, scheduler)
                 .flatMap(new Func1<Long, Observable<WeatherData>>() {
                     @Override
                     public Observable<WeatherData> call(Long aLong) {
