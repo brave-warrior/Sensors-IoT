@@ -1,6 +1,6 @@
 # Project description
 
-This project is Android client for the project Sensors-IoT. The purpose of the app is to fetch from the server and show actual weather data (temperature, humidity).
+This project is Android client for the project Sensors-IoT. The purpose of the app is to fetch from the server and show actual weather data (temperature, humidity) from exact sensor. User is able to select any sensor and check the data reported from it.
 
 ![Current data](screenshots/current_data.png)   ![History](screenshots/history.png)
 
