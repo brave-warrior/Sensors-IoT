@@ -2,6 +2,7 @@ package com.khmelenko.lab.sensorsclient;
 
 import com.khmelenko.lab.sensorsclient.network.ApiService;
 import com.khmelenko.lab.sensorsclient.network.RestClient;
+import com.khmelenko.lab.sensorsclient.network.response.Device;
 import com.khmelenko.lab.sensorsclient.network.response.WeatherData;
 import com.khmelenko.lab.sensorsclient.ui.presenter.DeviceDataActivityPresenter;
 import com.khmelenko.lab.sensorsclient.ui.view.DeviceDataActivityView;
@@ -23,8 +24,10 @@ import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.Scheduler;
+import rx.Subscriber;
 import rx.android.plugins.RxAndroidPlugins;
 import rx.android.plugins.RxAndroidSchedulersHook;
+import rx.observers.TestSubscriber;
 import rx.plugins.RxJavaPlugins;
 import rx.plugins.RxJavaSchedulersHook;
 import rx.plugins.RxJavaTestPlugins;
@@ -102,14 +105,13 @@ public class TestDeviceDataActivityPresenter {
     }
 
     @Test
-    public void testLoadCurrentData() {
+    public void testLoadCurrentDataSuccess() {
         final String deviceName = "test";
 
         Observable<WeatherData> weatherData = Observable.just(new WeatherData());
         when(mRestClient.getService().getCurrentData(deviceName)).thenReturn(weatherData);
 
         TestScheduler testScheduler = Schedulers.test();
-
         mPresenter.loadCurrentData(deviceName, testScheduler);
         testScheduler.advanceTimeBy(10, TimeUnit.SECONDS);
 
@@ -117,7 +119,31 @@ public class TestDeviceDataActivityPresenter {
     }
 
     @Test
-    public void testLoadCurrentDataAndHistory() {
+    public void testLoadCurrentDataFailed() {
+        final String deviceName = "test";
+
+        final NullPointerException npe = new NullPointerException();
+        Observable<WeatherData> currentDataObservable = Observable.create(new Observable.OnSubscribe<WeatherData>() {
+            @Override
+            public void call(Subscriber<? super WeatherData> subscriber) {
+                subscriber.onError(npe);
+            }
+        });
+
+        when(mRestClient.getService().getCurrentData(deviceName)).thenReturn(currentDataObservable);
+
+        TestSubscriber<WeatherData> subscriber = new TestSubscriber<>();
+        currentDataObservable.subscribe(subscriber);
+
+        TestScheduler testScheduler = Schedulers.test();
+        mPresenter.loadCurrentData(deviceName, testScheduler);
+        testScheduler.advanceTimeBy(5, TimeUnit.SECONDS);
+
+        subscriber.assertError(npe);
+    }
+
+    @Test
+    public void testLoadCurrentDataAndHistorySuccess() {
         final String deviceName = "test";
 
         WeatherData weather = new WeatherData();
@@ -137,7 +163,27 @@ public class TestDeviceDataActivityPresenter {
     }
 
     @Test
-    public void testLoadHistory() {
+    public void testLoadCurrentDataAndHistoryFailed() {
+        final String deviceName = "test";
+
+        final NullPointerException npe = new NullPointerException();
+        Observable<WeatherData> currentData = Observable.create(new Observable.OnSubscribe<WeatherData>() {
+            @Override
+            public void call(Subscriber<? super WeatherData> subscriber) {
+                subscriber.onError(npe);
+            }
+        });
+
+        when(mRestClient.getService().getCurrentData(deviceName)).thenReturn(currentData);
+        mPresenter.loadCurrentDataAndHistory(deviceName);
+
+        TestSubscriber<WeatherData> subscriber = new TestSubscriber<>();
+        currentData.subscribe(subscriber);
+        subscriber.assertError(npe);
+    }
+
+    @Test
+    public void testLoadHistorySuccess() {
         final String deviceName = "test";
 
         List<WeatherData> historyData = new ArrayList<>();
@@ -147,5 +193,26 @@ public class TestDeviceDataActivityPresenter {
         mPresenter.loadHistory(deviceName);
 
         verify(mRestClient.getService()).getHistory(deviceName);
+    }
+
+    @Test
+    public void testLoadHistoryFailed() {
+        final String deviceName = "test";
+
+        final NullPointerException npe = new NullPointerException();
+        Observable<List<WeatherData>> historyObservable = Observable.create(new Observable.OnSubscribe<List<WeatherData>>() {
+            @Override
+            public void call(Subscriber<? super List<WeatherData>> subscriber) {
+                subscriber.onError(npe);
+            }
+        });
+
+        TestSubscriber<List<WeatherData>> subscriber = new TestSubscriber<>();
+        historyObservable.subscribe(subscriber);
+
+        when(mRestClient.getService().getHistory(deviceName)).thenReturn(historyObservable);
+        mPresenter.loadHistory(deviceName);
+
+        subscriber.assertError(npe);
     }
 }
