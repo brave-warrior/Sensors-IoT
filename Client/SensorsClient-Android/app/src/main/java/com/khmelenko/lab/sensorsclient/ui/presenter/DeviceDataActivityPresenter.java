@@ -16,6 +16,7 @@ import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.schedulers.Schedulers;
@@ -99,6 +100,13 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
                 })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnError(new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable e) {
+                        getView().showErrorToast(e.getMessage());
+                        getView().handleFailedLoadingCurrentData();
+                    }
+                })
                 .retry()
                 .subscribe(currentDataSubscriber());
     }
@@ -191,8 +199,7 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
 
             @Override
             public void onError(Throwable e) {
-                getView().showErrorToast(e.getMessage());
-                getView().handleFailedLoadingCurrentData();
+                // do nothing, error handled in subscribing place
             }
 
             @Override
