@@ -17,6 +17,8 @@ import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
@@ -26,6 +28,7 @@ import rx.android.plugins.RxAndroidSchedulersHook;
 import rx.plugins.RxJavaPlugins;
 import rx.plugins.RxJavaSchedulersHook;
 import rx.plugins.RxJavaTestPlugins;
+import rx.plugins.RxJavaTestRunner;
 import rx.schedulers.Schedulers;
 import rx.schedulers.TestScheduler;
 
@@ -53,24 +56,7 @@ public class TestDeviceDataActivityPresenter {
 
     @Before
     public void setupMock() {
-        RxJavaTestPlugins.resetPlugins();
-        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
-            @Override
-            public Scheduler getIOScheduler() {
-                return Schedulers.immediate();
-            }
-
-            @Override
-            public Scheduler getNewThreadScheduler() {
-                return Schedulers.immediate();
-            }
-
-            @Override
-            public Scheduler getComputationScheduler() {
-                return Schedulers.immediate();
-            }
-        });
-
+        enableTestSchedulers();
         RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {
             @Override
             public Scheduler getMainThreadScheduler() {
@@ -92,8 +78,28 @@ public class TestDeviceDataActivityPresenter {
     @After
     public void tearDown() {
         RxAndroidPlugins.getInstance().reset();
+        resetTestSchedulers();
     }
 
+    /**
+     * Enables test schedulers
+     */
+    private void enableTestSchedulers() {
+        RxJavaTestPlugins.resetPlugins();
+        RxJavaPlugins.getInstance().registerSchedulersHook(new RxJavaSchedulersHook() {
+            @Override
+            public Scheduler getNewThreadScheduler() {
+                return Schedulers.immediate();
+            }
+        });
+    }
+
+    /**
+     * Resets test schedulers
+     */
+    private void resetTestSchedulers() {
+        RxJavaTestPlugins.resetPlugins();
+    }
 
     @Test
     public void testLoadCurrentData() {
@@ -102,11 +108,44 @@ public class TestDeviceDataActivityPresenter {
         Observable<WeatherData> weatherData = Observable.just(new WeatherData());
         when(mRestClient.getService().getCurrentData(deviceName)).thenReturn(weatherData);
 
-        TestScheduler testScheduler = new TestScheduler();
+        TestScheduler testScheduler = Schedulers.test();
+
         mPresenter.loadCurrentData(deviceName, testScheduler);
         testScheduler.advanceTimeBy(10, TimeUnit.SECONDS);
 
         verify(mRestClient.getService()).getCurrentData(deviceName);
     }
 
+    @Test
+    public void testLoadCurrentDataAndHistory() {
+        final String deviceName = "test";
+
+        WeatherData weather = new WeatherData();
+
+        Observable<WeatherData> weatherData = Observable.just(weather);
+        when(mRestClient.getService().getCurrentData(deviceName)).thenReturn(weatherData);
+
+        List<WeatherData> historyData = new ArrayList<>();
+        historyData.add(weather);
+        Observable<List<WeatherData>> history = Observable.just(historyData);
+        when(mRestClient.getService().getHistory(deviceName)).thenReturn(history);
+
+        mPresenter.loadCurrentDataAndHistory(deviceName);
+
+        verify(mRestClient.getService()).getCurrentData(deviceName);
+        verify(mRestClient.getService()).getHistory(deviceName);
+    }
+
+    @Test
+    public void testLoadHistory() {
+        final String deviceName = "test";
+
+        List<WeatherData> historyData = new ArrayList<>();
+        Observable<List<WeatherData>> history = Observable.just(historyData);
+        when(mRestClient.getService().getHistory(deviceName)).thenReturn(history);
+
+        mPresenter.loadHistory(deviceName);
+
+        verify(mRestClient.getService()).getHistory(deviceName);
+    }
 }
