@@ -109,19 +109,8 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
      * @param deviceName Device name
      */
     public void loadCurrentDataAndHistory(final String deviceName) {
-        Observable<WeatherData> currentData = Observable.interval(0, 10, TimeUnit.SECONDS)
-                .flatMap(new Func1<Long, Observable<WeatherData>>() {
-                    @Override
-                    public Observable<WeatherData> call(Long aLong) {
-                        return getCurrentData(deviceName);
-                    }
-                })
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
-
-        Observable<List<WeatherData>> history = getHistoryData(deviceName)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        Observable<WeatherData> currentData = getCurrentData(deviceName);
+        Observable<List<WeatherData>> history = getHistoryData(deviceName);
 
         mCurrentDataAndHistorySubscription = Observable.zip(currentData, history,
                 new Func2<WeatherData, List<WeatherData>,
@@ -130,7 +119,10 @@ public final class DeviceDataActivityPresenter extends BasePresenter<DeviceDataA
                     public AbstractMap.SimpleImmutableEntry<WeatherData, List<WeatherData>> call(WeatherData weatherData, List<WeatherData> history) {
                         return new HashMap.SimpleImmutableEntry<>(weatherData, history);
                     }
-                }).subscribe(currentDataAndHistorySubscriber());
+                })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(currentDataAndHistorySubscriber());
     }
 
     /**
