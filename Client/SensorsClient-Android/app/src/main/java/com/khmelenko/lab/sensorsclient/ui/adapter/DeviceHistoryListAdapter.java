@@ -45,11 +45,11 @@ public final class DeviceHistoryListAdapter extends RecyclerView.Adapter<DeviceH
         String dateTime = DateTimeUtils.parseAndFormatDateTime(data.getDate());
         holder.mTimestamp.setText(dateTime);
 
-        String temperature = StringUtils.formatDecimalDigits(data.getTemperature(), 2);
+        String temperature = StringUtils.formatDecimalDigits(data.getTemperature(), 1);
         temperature = mContext.getString(R.string.device_data_temperature, temperature);
         holder.mTemperature.setText(temperature);
 
-        String humidity = StringUtils.formatDecimalDigits(data.getHumidity(), 2);
+        String humidity = StringUtils.formatDecimalDigits(data.getHumidity(), 1);
         humidity = mContext.getString(R.string.device_data_humidity, humidity);
         holder.mHumidity.setText(humidity);
     }

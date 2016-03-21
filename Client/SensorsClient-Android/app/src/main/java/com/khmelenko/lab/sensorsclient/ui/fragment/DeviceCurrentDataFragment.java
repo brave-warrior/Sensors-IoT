@@ -90,12 +90,12 @@ public final class DeviceCurrentDataFragment extends Fragment {
         String dateTime = DateTimeUtils.parseAndFormatDateTime(weatherData.getDate());
         mTimestamp.setText(dateTime);
 
-        String temperature = StringUtils.formatDecimalDigits(weatherData.getTemperature(), 2);
+        String temperature = StringUtils.formatDecimalDigits(weatherData.getTemperature(), 1);
         temperature = getString(R.string.device_data_temperature, temperature);
         mTemperature.setText(temperature);
         mTemperatureHint.setVisibility(View.VISIBLE);
 
-        String humidity = StringUtils.formatDecimalDigits(weatherData.getHumidity(), 2);
+        String humidity = StringUtils.formatDecimalDigits(weatherData.getHumidity(), 1);
         humidity = getString(R.string.device_data_humidity, humidity);
         mHumidity.setText(humidity);
         mHumidityHint.setVisibility(View.VISIBLE);
