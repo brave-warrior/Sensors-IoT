@@ -26,9 +26,13 @@ public final class DeviceCurrentDataFragment extends Fragment {
     @Bind(R.id.device_current_timestamp)
     TextView mTimestamp;
 
+    @Bind(R.id.device_current_temperature_hint)
+    TextView mTemperatureHint;
     @Bind(R.id.device_current_temperature)
     TextView mTemperature;
 
+    @Bind(R.id.device_current_humidity_hint)
+    TextView mHumidityHint;
     @Bind(R.id.device_current_humidity)
     TextView mHumidity;
 
@@ -89,10 +93,12 @@ public final class DeviceCurrentDataFragment extends Fragment {
         String temperature = StringUtils.formatDecimalDigits(weatherData.getTemperature(), 2);
         temperature = getString(R.string.device_data_temperature, temperature);
         mTemperature.setText(temperature);
+        mTemperatureHint.setVisibility(View.VISIBLE);
 
         String humidity = StringUtils.formatDecimalDigits(weatherData.getHumidity(), 2);
         humidity = getString(R.string.device_data_humidity, humidity);
         mHumidity.setText(humidity);
+        mHumidityHint.setVisibility(View.VISIBLE);
 
         mLastWeather = weatherData;
     }

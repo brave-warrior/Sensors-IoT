@@ -8,8 +8,8 @@
     <string name="device_data_tab_current">Current</string>
     <string name="device_data_tab_history">History</string>
     <string name="device_data_history_empty_text">No history</string>
-    <string name="device_data_temperature">Temperature: %1$s °C</string>
-    <string name="device_data_humidity">Humidity: %1$s %%</string>
+    <string name="device_data_temperature">%1$s °C</string>
+    <string name="device_data_humidity">%1$s %%</string>
     <string name="device_data_current_empty_text">No data</string>
 
     <!-- Messages -->
@@ -21,6 +21,8 @@
     <string name="settings_server_url">Server URL</string>
     <string name="settings_category_general">General</string>
     <string name="devices_menu_action_preferences">Settings</string>
+    <string name="device_data_temperature_hint">Temperature</string>
+    <string name="device_data_humidity_hint">Humidity</string>
 
 
 </resources>

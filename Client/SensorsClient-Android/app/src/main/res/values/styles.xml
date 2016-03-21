@@ -5,10 +5,10 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
-        <item name="android:textColorPrimary">@color/primary_text</item>
-        <item name="android:textColorSecondary">@color/secondary_text</item>
+        <item name="android:textColorPrimary">@color/black_dark</item>
+        <item name="android:textColorSecondary">@color/gray</item>
         <item name="android:divider">@color/divider</item>
-        <item name="android:textColorPrimaryInverse">@color/icons</item>
+        <item name="android:textColorPrimaryInverse">@color/white</item>
 
     </style>
 
@@ -44,11 +44,35 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="GeneralText.Light" parent="GeneralText">
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="GeneralText.Light.Center" parent="GeneralText">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="GeneralText.Secondary.Center" parent="GeneralText">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="GeneralText.Title.Center" parent="GeneralText">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">27sp</item>
+    </style>
+
     <style name="Header" parent="GeneralText">
         <item name="android:gravity">center</item>
-        <item name="android:textSize">25sp</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+    </style>
+
+    <style name="Header.Huge" parent="Header">
+        <item name="android:textSize">35sp</item>
     </style>
 
 </resources>
