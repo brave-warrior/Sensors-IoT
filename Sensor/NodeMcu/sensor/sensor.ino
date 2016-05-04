@@ -1,8 +1,10 @@
 #include <ESP8266WiFi.h>
 
-const char* ssid = "FRITZ!Box Fon WLAN 7360";
-const char* password = "62884846722859294257";
+// Define network credentials
+const char* ssid = "";
+const char* password = "";
 
+// Define host data
 const char* host = "192.168.178.34";
 const int httpPort = 8080;
  
@@ -39,13 +41,13 @@ void loop() {
         return;
   }
 
-  Serial.println("connecting to " + String(host));
+  Serial.println("Connecting to " + String(host));
   
   // Use WiFiClient class to create TCP connections
   WiFiClient client;
   
   if (!client.connect(host, httpPort)) {
-    Serial.println("connection failed");
+    Serial.println("Connection failed");
     return;
   }
 
