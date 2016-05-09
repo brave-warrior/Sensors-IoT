@@ -13,7 +13,7 @@
     <string name="device_data_current_empty_text">No data</string>
 
     <!-- Messages -->
-    <string name="error_failed_loading_sensors">Unable to load sensors</string>
+    <string name="error_failed_loading_sensors">Unable to load sensors: %1$s</string>
     <string name="loading_msg">Loading...</string>
 
     <!-- TODO: Remove or change this placeholder text -->
