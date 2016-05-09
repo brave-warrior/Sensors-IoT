@@ -11,6 +11,7 @@ import com.khmelenko.lab.sensorsclient.di.component.DaggerPresenterComponent;
 import com.khmelenko.lab.sensorsclient.di.component.PresenterComponent;
 import com.khmelenko.lab.sensorsclient.di.module.PresenterModule;
 import com.khmelenko.lab.sensorsclient.storage.AppSettings;
+import com.squareup.leakcanary.LeakCanary;
 
 /**
  * Application instance
@@ -27,6 +28,7 @@ public class SensorsApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LeakCanary.install(this);
         sContext = getApplicationContext();
 
         checkAppSettings();
