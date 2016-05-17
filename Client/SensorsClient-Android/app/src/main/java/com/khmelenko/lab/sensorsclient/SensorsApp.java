@@ -9,6 +9,8 @@ import com.khmelenko.lab.sensorsclient.di.component.BaseComponent;
 import com.khmelenko.lab.sensorsclient.di.component.DaggerBaseComponent;
 import com.khmelenko.lab.sensorsclient.di.component.DaggerPresenterComponent;
 import com.khmelenko.lab.sensorsclient.di.component.PresenterComponent;
+import com.khmelenko.lab.sensorsclient.di.module.ApplicationModule;
+import com.khmelenko.lab.sensorsclient.di.module.NetworkModule;
 import com.khmelenko.lab.sensorsclient.di.module.PresenterModule;
 import com.khmelenko.lab.sensorsclient.storage.AppSettings;
 import com.squareup.leakcanary.LeakCanary;
@@ -86,7 +88,10 @@ public class SensorsApp extends Application {
      * Builds injection components
      */
     private void buildInjections() {
-        mBaseComponent = DaggerBaseComponent.create();
+        mBaseComponent = DaggerBaseComponent.builder()
+                .applicationModule(new ApplicationModule(sContext))
+                .networkModule(new NetworkModule())
+                .build();
 
         mPresenterComponent = DaggerPresenterComponent.builder()
                 .presenterModule(new PresenterModule())
